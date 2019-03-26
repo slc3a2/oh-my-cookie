@@ -3,13 +3,13 @@
     "name": {
       "type": "string",
       "required": true,
-      "label": "Project name"
+      "label": "oh my cookie"
     },
     "description": {
       "type": "string",
       "required": true,
       "label": "Project description",
-      "default": "A Vue.js project"
+      "default": "oh my cookie"
     },
     "author": {
       "type": "string",
