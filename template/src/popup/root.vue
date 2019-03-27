@@ -1,23 +1,11 @@
 <template>
     <div class='root'>
+      <header>
+          <appHeader/>
+      </header>
+      <button @click='exportJson'>导出JSON格式cookie</button>
       <el-input v-model="url" placeholder="Write the url" clearable @keyup.enter.native='getCookies(input)'></el-input>
-      <p>{{tableData}}</p>
-      <!-- <el-collapse v-loading='loading' v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="idx" v-for='(item,idx) in cookies' :key='idx'>
-            <template slot="title">
-            {{`${item.name} | ${item.domain} `}}<i @click.stop='deleteCookie(idx)' class="el-icon-delete"></i>
-            </template>
-            <div>domain : {{item.domain}}</div>
-            <div>name : {{item.name}}</div>
-            <div>value : {{item.value}}</div>
-            <div>expirationDate : {{item.expirationDate}}</div>
-            <div>hostOnly : {{item.hostOnly}}</div>
-            <div>httpOnly : {{item.httpOnly}}</div>
-            <div>path : {{item.path}}</div>
-            <detail :data='item'/>
-
-          </el-collapse-item>
-      </el-collapse> -->
+      <p ref='exportJson'>{{tableData}}</p>
       <el-table
         :data="tableData"
         stripe
@@ -80,16 +68,100 @@
           show-overflow-tooltip
           prop="value">
         </el-table-column>
+        <el-table-column
+          class='cookie-value'
+          label="more"
+          align='center'
+          show-overflow-tooltip
+          >
+          <template slot-scope='scope'>
+             <!-- <i class="el-icon-edit" @click.stop="handleEdit(scope.$index, scope.row)"></i>
+             <i class="el-icon-delete" @click.stop='handleDele(scope.$index, scope.row)'></i> -->
+             <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)"><i class="el-icon-edit" @click.stop="handleEdit(scope.$index, scope.row)"></i></el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click.stop='handleDele(scope.$index, scope.row)'
+                ><i class="el-icon-delete"></i></el-button>
+          </template>
+          <!-- <template slot="header" slot-scope="scope">
+            <el-input
+              v-model="search"
+              size="mini"
+              @change='filterValue(search)'
+              width='30'
+              clearable
+              placeholder="值搜索"/>
+          </template> -->
+        </el-table-column>
       </el-table>
+      <!-- 对话窗 -->
+      <el-dialog title="oh my cookie" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="domain" >
+          <el-input v-model="form.domain" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="name">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="value" >
+          <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="expirationDate" >
+          <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="path" >
+          <el-input v-model="form.path" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="sameSite" >
+          <el-input v-model="form.sameSite" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="httpOnly" >
+          <el-tooltip :content="'httpOnly value: ' + form.httpOnly" placement="top">
+            <el-switch v-model="form.httpOnly">
+            </el-switch>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="secure" >
+          <el-tooltip :content="'secure value: ' + form.secure" placement="top">
+            <el-switch
+              v-model="form.secure" >
+            </el-switch>
+          </el-tooltip>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import detail from './table';
+import appHeader from './header'
   export default {
     data: () => {  
       return{
          tableData:[],
-         scope:''
+         scope:'',
+         url:'',
+         search:'',
+         currentPage:'',
+         dialogFormVisible:false,
+         form:{
+           domain:'',
+           name:'',
+           value:'',
+           path: '',
+           sameSite:'',
+           hostOnly:false,
+           httpOnly:false,
+           secure:true,
+           session:false
+         }
       }
     },
     computed: { 
@@ -97,6 +169,7 @@ import detail from './table';
     created () {
        let self = this;
        chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+          self.currentPage = tab[0].url;
           self.getCookies(tab[0].url);
        })
     },
@@ -121,19 +194,72 @@ import detail from './table';
            this.$refs.refTable.toggleRowExpansion(row)
       },
       numberToTime(timenumber) {
-          let t = timenumber*1000
+          let t = timenumber*1000;
           const date = new Date(t)
           const Y = date.getFullYear() + '-'
           const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
           const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
-          // let h = date.getHours() + ':'
-          // let m = date.getMinutes() + ':'
-          // let s = date.getSeconds() < 10 ?
-          return Y + M + D
+          let h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':'
+          let m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':'
+          let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+          return Y + M + D + ' ' + h + m + s
+      },
+      handleEdit(index,data){
+        this.form = {...data}
+        this.dialogFormVisible = true;
+      },
+      handleDele(index,data){
+        chrome.cookies.remove({url:this.currentPage, name: data.name},
+        (res)=>{
+          this.$message({
+            message: `${res.name} is deleted`,
+            type: 'success'
+          });
+          this.tableData = this.tableData.filter((item)=>{return item.name != res.name})
+        });
+      },
+      submit(){
+        let self = this
+        let temp = this.form
+        delete temp.hostOnly
+        delete temp.session
+        chrome.cookies.set({
+            "url": self.currentPage,
+            ...temp
+        }, function (cookie) {
+            //reload
+            self.getCookies(self.currentPage);
+            self.dialogFormVisible = false
+            self.$message({
+              message: `Updated successful`,
+              type: 'success'
+            });
+        });
+      },
+      // 暂时不用
+      filterValue(v){
+        if(!v.length){
+          let self = this
+          chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+              self.getCookies(tab[0].url);
+          })
+        }else{
+          this.tableData = this.tableData.filter((i)=>{return i.value.indexOf(v) !== -1})
+        }
+      },
+      exportJson(){
+        // const input = this.$refs.exportJson
+        // console.log(input)
+        // input.select();
+        // if (document.execCommand('copy')) {
+        //   document.execCommand('copy');
+        //   console.log('复制成功');
+        // }
       }
     },
     components:{
-      detail
+      detail,
+      appHeader
     }
   }
 </script>
@@ -163,18 +289,17 @@ import detail from './table';
   }
   .el-table__row{
     cursor: pointer;
-    .el-table_1_column_4{
-      .cell{
-        // max-height:90px;
-        // height:90px;
-        // display: -webkit-box;
-        // -webkit-box-orient: vertical;
-        // -webkit-line-clamp: 3;
-        // overflow: hidden;
-      }
-    }
     .el-textarea{
       width:100%;
+    }
+  }
+  .el-icon-edit,.el-icon-delete{
+    // font-size: 20P
+  }
+  .el-dialog{
+    width:90%;
+    .el-form-item{
+      margin-bottom:0px;
     }
   }
 </style>
