@@ -56,7 +56,7 @@ export default {
           this.$emit('hideSettingHandle');
       },
       handleChange(val) {
-        console.log(val);
+        // console.log(val);
       },
       seeCode(){
           window.open('https://github.com/llqi/oh-my-cookie')

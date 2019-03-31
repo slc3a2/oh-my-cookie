@@ -3,9 +3,10 @@ module.exports = {
   name: 'OhMyCookie',
   version: '1.0.0',
   description: 'Cookies Manager',
+  default_title:'OhMyCookie',
   author: 'liangqi',
   manifest_version: 2,
-  icons: { '16': 'icons/16.png', '128': 'icons/128.png' },
+  icons: { '16': 'icons/logo16.png', '128': 'icons/logo128.png' },
   permissions: [
     '<all_urls>',
     '*://*/*',

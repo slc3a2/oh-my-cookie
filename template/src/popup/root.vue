@@ -1,12 +1,12 @@
 <template>
     <div class='root'>
       
-      <div v-if='showSetting'>
+      <div v-if='showSetting' class='main'>
           <header>
             <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson'/>
         </header>
           <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
-        <el-input class='input' v-model="url" placeholder="Write the url" clearable @keyup.enter.native='getCookies(input)'></el-input>
+        <!-- <el-input class='input' v-model="url" placeholder="Write the url" clearable @keyup.enter.native='getCookies(input)'></el-input> -->
         <input class='exportJson'  ref='exportJson' v-model='JSONCookie'/>
         <el-table
           :data="tableData"
@@ -103,7 +103,7 @@
           </el-table-column>
         </el-table>
         <!-- 对话窗 -->
-        <el-dialog title="oh my cookie" :visible.sync="dialogFormVisible">
+        <el-dialog title="" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="domain" >
             <el-input v-model="form.domain" autocomplete="off"></el-input>
@@ -291,11 +291,15 @@ import setting from './setting'
   }
 </script>
 <style lang="scss">
+  .main::-webkit-scrollbar {display:none}
   .root {
     width:600px;
     height:400px;
     position:relative;
     padding:2px 5px 10px;
+    .el-dialog__header{
+      padding:0;
+    }
     .input{
       margin-bottom:10px;
     }

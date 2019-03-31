@@ -1,6 +1,5 @@
 // popup.js调用方法
 function deleteCookie(url,name){
-    console.log(url,name)
     let self = this;
     chrome.cookies.getAll({
         'url':url

@@ -1,12 +1,12 @@
 <template>
     <div class='header'>
         <div>
-            <a href="">
-                <img class='logo' src="./img/logo.jpeg" alt="">
+            <a href="https://github.com/llqi/oh-my-cookie" target="_blank">
+                <img class='logo' src="./img/logo.png" alt="">
             </a>
         </div>
         <div class='name'>
-            oh my cookie
+            <!-- oh my cookie -->
         </div>
         <div>
           <el-tooltip class="item" effect="dark" content="复制JSON" placement="top-start">
@@ -48,6 +48,7 @@ export default {
         display:flex;
         justify-content: space-between;
         border-bottom: 1px solid #eee;
+        padding:5px;
         i.el-icon-setting,i.el-icon-upload2{
             font-size: 25px;
             cursor: pointer;
@@ -56,8 +57,9 @@ export default {
         a{
             display:block;
             .logo{
-                width:30px;
-                height:30px;
+                width:25px;
+                height:25px;
+                margin-top:5px;
             }
         }
         .name{
