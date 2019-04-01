@@ -9,11 +9,14 @@
             <!-- oh my cookie -->
         </div>
         <div>
-          <el-tooltip class="item" effect="dark" content="复制JSON" placement="top-start">
+          <el-tooltip class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
             <i @click.stop='$emit("exportJson")' class="el-icon-upload2"></i>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="设置" placement="top-start">
+          <el-tooltip class="item" effect="dark" :content="$t('lang.setting')" placement="top-start">
             <i class='el-icon-setting'  @click.stop='showSetting'></i>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" :content="$t('lang.lang')" placement="top-start">
+            <i class='lang' @click='changeLang'>{{lang}}</i>
           </el-tooltip>
         </div>
     </div>
@@ -22,7 +25,7 @@
 export default {
   data: () => {  
     return{
-      
+      lang:'Zh'
     }
   },
   props: {
@@ -38,17 +41,33 @@ export default {
   methods:{
     showSetting(){
       this.$emit('showSettingHandle');
+    },
+    changeLang(){
+      if ( this.$i18n.locale === 'zh-CN' ) {
+        this.$i18n.locale = 'en-US';
+        localStorage.setItem('lang','en-US')
+      }else {
+        this.$i18n.locale = 'zh-CN';
+        localStorage.setItem('lang','zh-CN')
+      }
+      if(this.lang === 'En'){
+        this.lang = 'Zh'
+      }else{
+        this.lang = 'En'
+      }
     }
   }
 }
 </script>
 <style lang='scss'>
     .header{
-        height:40px;
+        width:100%;
+        height:45px;
         display:flex;
         justify-content: space-between;
-        border-bottom: 1px solid #eee;
-        padding:5px;
+        // border-bottom: 1px solid #eee;
+        box-sizing: border-box;
+        padding:5px 10px;
         i.el-icon-setting,i.el-icon-upload2{
             font-size: 25px;
             cursor: pointer;
@@ -65,6 +84,12 @@ export default {
         .name{
           font-size: 25px;
           font-style:italic;
+        }
+        .lang{
+          cursor: pointer;
+        }
+        i{
+          margin-right:5px;
         }
     }
 </style>

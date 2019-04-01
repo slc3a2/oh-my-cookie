@@ -5,29 +5,25 @@
         </header>
         <section>
             <div class='item'>
-                <div>去商店评分</div>
+                <div>{{$t('lang.score')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
             <div class='item' @click='issues'>
-                <div>提出意见与bug</div>
+                <div>{{$t('lang.bug')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
             <div class='item' @click='seeCode'>
-                <div>本项目源代码</div>
+                <div>{{$t('lang.source')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
             <div class='item' @click='goLibrary'>
-                <div>开源库based on vue@2</div>
+                <div>{{$t('lang.lib')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
             <div class='item'>
-                <div>版本号 v{{version}}</div>
+                <div>{{$t('lang.ver')}}  {{version}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
-            <el-collapse-item title="一致性 Consistency" name="1">
-    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-  </el-collapse-item>
         </section>
     </div>
 </template>
@@ -86,7 +82,6 @@ export default {
         .item{
             width:100%;
             height:45px;
-            // border-radius: 4px;
             border-bottom: 1px solid #EBEEF5;
             background-color: #FFF;
             display:flex;

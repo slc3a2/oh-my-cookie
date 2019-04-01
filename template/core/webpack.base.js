@@ -96,7 +96,8 @@ module.exports = {
     htmlPage('devtools', 'devtools', ['devtools']),
     htmlPage('options', 'options', ['options']),
     htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
-    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }])
+    new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
+    new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
     // new ChromeReloadPlugin({
     //   port: 9090,
     //   manifest: path.join(__dirname, '..', 'src', 'manifest.js')
