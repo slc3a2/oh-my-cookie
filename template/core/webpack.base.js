@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-// const ChromeReloadPlugin  = require('wcer')
+// const ChromeReloadPlugin = require('wcer')
 const {cssLoaders, htmlPage} = require('./tools')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
@@ -97,7 +97,6 @@ module.exports = {
     htmlPage('options', 'options', ['options']),
     htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
     new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
-    new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
     // new ChromeReloadPlugin({
     //   port: 9090,
     //   manifest: path.join(__dirname, '..', 'src', 'manifest.js')
