@@ -9,6 +9,9 @@
             <!-- oh my cookie -->
         </div>
         <div>
+          <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
+            <i class="el-icon-delete" @click.stop='deleteAllCookie'></i>
+          </el-tooltip>
           <el-tooltip class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
             <i @click.stop='$emit("exportJson")' class="el-icon-upload2"></i>
           </el-tooltip>
@@ -55,7 +58,30 @@ export default {
       }else{
         this.lang = 'En'
       }
-    }
+    },
+    deleteAllCookie(){
+      let self = this;
+      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+      //  console.log(tab[0].url);
+       let url = tab[0].url
+       chrome.cookies.getAll({
+            'url': url
+        }, function (cookies) {
+            for (var i = 0; i < cookies.length; i++) {
+                chrome.cookies.remove({
+                    url: url+'' + cookies[i].path,
+                    name: cookies[i].name
+                })
+            }
+          self.$message({
+            message: `successfully remove`,
+            type: 'success'
+          });
+          self.$emit("removeAll");
+        })
+       })
+        
+      }
   }
 }
 </script>
@@ -68,7 +94,7 @@ export default {
         // border-bottom: 1px solid #eee;
         box-sizing: border-box;
         padding:5px 10px;
-        i.el-icon-setting,i.el-icon-upload2{
+        i.el-icon-setting,i.el-icon-upload2,i.el-icon-delete{
             font-size: 25px;
             cursor: pointer;
             line-height: 40px;

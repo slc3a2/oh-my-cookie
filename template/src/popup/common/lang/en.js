@@ -1,6 +1,7 @@
 export const lang = {
     setting:'setting',
     export:'export in json',
+    remove:'remove all',
     lang:'language',
     cancel:'cancel',
     save:'save',
@@ -10,5 +11,6 @@ export const lang = {
     lib:'build based on vue@2',
     ver:'version',
     empty:'no data',
-    copy:'copy successful'
+    copy:'copy successful',
+
   }

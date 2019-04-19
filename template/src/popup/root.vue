@@ -3,7 +3,7 @@
       
       <div v-if='showSetting' class='main'>
         <header>
-            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson'/>
+            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll'/>
         </header>
         <div class='content'>
                         <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
@@ -209,6 +209,9 @@ import setting from './setting'
       },
       deleteCookie(idx){
         this.tableData = this.tableData.filter((item,index)=>{return idx != index})
+      },
+      removeAll(){
+        this.tableData = [];
       },
       clickTable(row,index,e){
            this.$refs.refTable.toggleRowExpansion(row)
