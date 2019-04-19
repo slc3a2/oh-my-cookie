@@ -3,7 +3,7 @@
       
       <div v-if='showSetting' class='main'>
         <header>
-            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll'/>
+            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll' @changeType="changeType"/>
         </header>
         <div class='content'>
                         <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
@@ -16,7 +16,9 @@
               border
               @row-click="clickTable"
               ref="refTable"
-              style="width: 100%">
+              style="width: 100%"
+              v-if="type=='Cookie'"
+            >
               <el-table-column type="expand">
                 <template slot-scope="props">
                   <el-form label-position="left" inline class="demo-table-expand">
@@ -104,6 +106,34 @@
                 </template> -->
               </el-table-column>
             </el-table>
+            <el-table
+              :data="tableData"
+              :empty-text="$t('lang.empty')"
+              stripe
+              border
+              @row-click="clickTable"
+              ref="refTable"
+              style="width: 100%"
+              v-else
+            >
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <el-form label-position="left" inline class="demo-table-expand">
+                    <el-form-item v-for="item in props.row.data" :key="item.name" :label="item.name">
+                      <span>{{ item.value }}</span>
+                    </el-form-item>
+                  </el-form>
+                </template>
+              </el-table-column>
+              <el-table-column label="name" show-overflow-tooltip align="center" prop="name"></el-table-column>
+              <el-table-column
+                class="cookie-value"
+                label="value"
+                align="center"
+                show-overflow-tooltip
+                prop="value"
+              ></el-table-column>
+            </el-table>
             <!-- 对话窗 -->
             <el-dialog title="" :visible.sync="dialogFormVisible">
             <el-form :model="form">
@@ -168,6 +198,7 @@ import setting from './setting'
          currentPage:'',
          dialogFormVisible:false,
          showSetting:true,
+         type: "Cookie",
          form:{
            domain:'',
            name:'',
@@ -194,6 +225,31 @@ import setting from './setting'
        })
     },
     methods: {
+      getData() {
+        console.log(localStorage.getItem("type"));
+        let self = this;
+        chrome.tabs.query(
+          {
+            status: "complete",
+            windowId: chrome.windows.WINDOW_ID_CURRENT,
+            active: true
+          },
+          function(tab) {
+            self.currentPage = tab[0].url;
+            self.type = localStorage.getItem("type") || "Cookie";
+            if (self.type == "Cookie") {
+              self.getCookies(tab[0].url);
+            } else if (self.type == "LocalStorage") {
+              self.getLocalStorage(tab[0].id);
+            } else if (self.type == "SessionStorage") {
+              self.getSessionStorage(tab[0].id);
+            }
+          }
+        );
+      },
+      changeType() {
+        this.getData();
+      },
       handleClick(tab, event) {
         console.log(tab, event);
       },
@@ -206,6 +262,47 @@ import setting from './setting'
             self.loading = false
           },300)
         })
+      },    
+      getLocalStorage(tabId) {
+        this.getStorage(tabId, "localStorage");
+      },
+      getSessionStorage(tabId) {
+        this.getStorage(tabId, "sessionStorage");
+      },
+      getStorage(tabId, name) {
+        let self = this;
+        chrome.tabs.executeScript(
+          tabId,
+          { code: `JSON.stringify(` + name + `)` },
+          function(d) {
+            var data = JSON.parse(d);
+            self.tableData = [];
+            for (var name in data) {
+              var item = {};
+              item.name = name;
+              item.value = data[name];
+              try {
+                var parsedData = JSON.parse(data[name]);
+                item.data = [];
+                if (parsedData instanceof Object) {
+                  item.data = [];
+                  for (var key in parsedData) {
+                    var kv = [];
+                    kv.name = key;
+                    kv.value = parsedData[key];
+                    item.data.push(kv);
+                  }
+                } else if (typeof parsedData == "string") {
+                  item.value = parsedData;
+                }
+              } catch (e) {
+                item.data = [];
+              }
+              self.tableData.push(item);
+            }
+            console.log(self.tableData);
+          }
+        );
       },
       deleteCookie(idx){
         this.tableData = this.tableData.filter((item,index)=>{return idx != index})

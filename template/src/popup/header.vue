@@ -6,11 +6,14 @@
             </a>
         </div>
         <div class='name'>
-            <!-- oh my cookie -->
+          <!-- oh my cookie -->
+          <el-tooltip class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
+            <i class="lang" @click="changeType">{{type}}</i>
+          </el-tooltip>
         </div>
         <div>
           <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
-            <i class="el-icon-delete" @click.stop='deleteAllCookie'></i>
+            <i class="el-icon-delete" @click.stop='deleteAllData'></i>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
             <i @click.stop='$emit("exportJson")' class="el-icon-upload2"></i>
@@ -28,7 +31,8 @@
 export default {
   data: () => {  
     return{
-      lang:'Zh'
+      lang:'Zh',
+      type: 'Cookie'
     }
   },
   props: {
@@ -59,12 +63,40 @@ export default {
         this.lang = 'En'
       }
     },
-    deleteAllCookie(){
+    changeType() {
+      console.log('change type', this.type)
+      if (this.type == "Cookie") {
+        this.type = "LocalStorage";
+      } else if (this.type == "LocalStorage") {
+        this.type = "SessionStorage";
+      } else {
+        this.type = "Cookie";
+      }
+      localStorage.setItem("type", this.type);
+      this.$emit("changeType")
+    },
+    deleteAllData() {
       let self = this;
       chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
-      //  console.log(tab[0].url);
-       let url = tab[0].url
-       chrome.cookies.getAll({
+        var currentTab = tab[0]
+        if(self.type == "Cookie") {
+          self.deleteAllCookie(currentTab.url);
+        } else if(self.type == "LocalStorage") {
+          self.deleteAllLocalStorage(currentTab.id);
+        } else if(self.type == "SessionStorage") {
+          self.deleteAllSessionStorage(currentTab.id)
+        }
+        self.$emit("removeAll");
+      });
+    },
+    deleteAllLocalStorage(tabId) {
+        chrome.tabs.executeScript(tabId, {code:`localStorage.clear()`},console.log)
+    },
+    deleteAllSessionStorage(tabId) {
+        chrome.tabs.executeScript(tabId, {code:`sessionStorage.clear()`},console.log)
+    },
+    deleteAllCookie(url){
+      chrome.cookies.getAll({
             'url': url
         }, function (cookies) {
             for (var i = 0; i < cookies.length; i++) {
@@ -77,11 +109,9 @@ export default {
             message: `successfully remove`,
             type: 'success'
           });
-          self.$emit("removeAll");
-        })
-       })
-        
-      }
+          
+      })
+    }
   }
 }
 </script>

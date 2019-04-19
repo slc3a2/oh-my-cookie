@@ -11,5 +11,6 @@ export const lang = {
     lib:'开源库based on vue@2',
     ver:'版本号',
     empty:'暂无数据',
-    copy:'已复制到剪切板'
+    copy:'已复制到剪切板',
+    storageType: "存储类型"
   }
