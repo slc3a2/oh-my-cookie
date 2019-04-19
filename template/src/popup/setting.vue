@@ -4,7 +4,7 @@
             <i class="el-icon-arrow-left" @click.stop='back'></i>
         </header>
         <section>
-            <div class='item'>
+            <div class='item' @click='comments'>
                 <div>{{$t('lang.score')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
@@ -62,6 +62,9 @@ export default {
       },
       goLibrary(){
           window.open('https://github.com/YuraDev/vue-chrome-extension-template')
+      },
+      comments(){
+          window.open('https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN')
       }
   }
 }
