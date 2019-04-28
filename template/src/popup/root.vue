@@ -6,144 +6,68 @@
             <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll'/>
         </header>
         <div class='content'>
-                        <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
+
+          <el-tabs v-model="activeName" @tab-click="handleClick" :stretch="stretch">
+            <el-tab-pane label="cookie" name="cookie">
+              <cookie :data='tableData' @handleEdit='handleEdit'  @handleDele='handleDele'/>
+            </el-tab-pane>
+            <el-tab-pane label="localstorage" name="localstorage">
+              <localstorage />
+            </el-tab-pane>
+            <el-tab-pane label="sessionstorage" name="sessionstorage">
+              <sessionstorage />
+            </el-tab-pane>
+          </el-tabs>
+
+
+
+
+
+
+            <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
             <!-- <el-input class='input' v-model="url" placeholder="Write the url" clearable @keyup.enter.native='getCookies(input)'></el-input> -->
             <input class='exportJson'  ref='exportJson' v-model='JSONCookie'/>
-            <el-table
-              :data="tableData"
-              :empty-text="$t('lang.empty')"
-              stripe
-              border
-              @row-click="clickTable"
-              ref="refTable"
-              style="width: 100%">
-              <el-table-column type="expand">
-                <template slot-scope="props">
-                  <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="domain">
-                      <span>{{ props.row.domain }}</span>
-                    </el-form-item>
-                    <el-form-item label="name">
-                      <span>{{ props.row.name }}</span>
-                    </el-form-item>
-                    <el-form-item label="value">
-                      <el-input
-                        readonly
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"
-                        v-model="props.row.value">
-                      </el-input>
-                    </el-form-item>
-                    <el-form-item label="path">
-                      <span>{{ props.row.path }}</span>
-                    </el-form-item>
-                    <el-form-item label="expiration">
-                      <span>{{ numberToTime(props.row.expirationDate) }}</span>
-                    </el-form-item>
-                    <el-form-item label="hostOnly">
-                      <span>{{ props.row.hostOnly }}</span>
-                    </el-form-item>
-                    <el-form-item label="sameSite">
-                      <span>{{ props.row.sameSite }}</span>
-                    </el-form-item>
-                    <el-form-item label="secure">
-                      <span>{{ props.row.secure }}</span>
-                    </el-form-item>
-                    <el-form-item label="session">
-                      <span>{{ props.row.session }}</span>
-                    </el-form-item>
-                  </el-form>
-                </template>
-              </el-table-column>
-              <el-table-column
-                label="domain"
-                align='center'
-                show-overflow-tooltip
-                prop="domain">
-              </el-table-column>
-              <el-table-column
-                label="name"
-                show-overflow-tooltip
-                align='center'
-                prop="name">
-              </el-table-column>
-              <el-table-column
-                class='cookie-value'
-                label="value"
-                align='center'
-                show-overflow-tooltip
-                prop="value">
-              </el-table-column>
-              <el-table-column
-                class='cookie-value'
-                label="more"
-                align='center'
-                show-overflow-tooltip
-                >
-                <template slot-scope='scope'>
-                  <!-- <i class="el-icon-edit" @click.stop="handleEdit(scope.$index, scope.row)"></i>
-                  <i class="el-icon-delete" @click.stop='handleDele(scope.$index, scope.row)'></i> -->
-                  <el-button
-                      size="mini"
-                      @click="handleEdit(scope.$index, scope.row)"><i class="el-icon-edit" @click.stop="handleEdit(scope.$index, scope.row)"></i></el-button>
-                    <el-button
-                      size="mini"
-                      type="danger"
-                      @click.stop='handleDele(scope.$index, scope.row)'
-                      ><i class="el-icon-delete"></i></el-button>
-                </template>
-                <!-- <template slot="header" slot-scope="scope">
-                  <el-input
-                    v-model="search"
-                    size="mini"
-                    @change='filterValue(search)'
-                    width='30'
-                    clearable
-                    placeholder="值搜索"/>
-                </template> -->
-              </el-table-column>
-            </el-table>
+            
             <!-- 对话窗 -->
-            <el-dialog title="" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-              <el-form-item label="domain" >
-                <el-input v-model="form.domain" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="name">
-                <el-input v-model="form.name" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="value" >
-                <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="expirationDate" >
-                <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="path" >
-                <el-input v-model="form.path" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="sameSite" >
-                <el-input v-model="form.sameSite" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="httpOnly" >
-                <el-tooltip :content="'httpOnly value: ' + form.httpOnly" placement="top">
-                  <el-switch v-model="form.httpOnly">
-                  </el-switch>
-                </el-tooltip>
-              </el-form-item>
-              <el-form-item label="secure" >
-                <el-tooltip :content="'secure value: ' + form.secure" placement="top">
-                  <el-switch
-                    v-model="form.secure" >
-                  </el-switch>
-                </el-tooltip>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">{{$t('lang.cancel')}}</el-button>
-              <el-button type="primary" @click="submit">{{$t('lang.save')}}</el-button>
-            </div>
-          </el-dialog>
+              <el-dialog title="" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                  <el-form-item label="domain" >
+                    <el-input v-model="form.domain" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="name">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="value" >
+                    <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="expirationDate" >
+                    <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="path" >
+                    <el-input v-model="form.path" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="sameSite" >
+                    <el-input v-model="form.sameSite" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="httpOnly" >
+                    <el-tooltip :content="'httpOnly value: ' + form.httpOnly" placement="top">
+                      <el-switch v-model="form.httpOnly">
+                      </el-switch>
+                    </el-tooltip>
+                  </el-form-item>
+                  <el-form-item label="secure" >
+                    <el-tooltip :content="'secure value: ' + form.secure" placement="top">
+                      <el-switch
+                        v-model="form.secure" >
+                      </el-switch>
+                    </el-tooltip>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="dialogFormVisible = false">{{$t('lang.cancel')}}</el-button>
+                <el-button type="primary" @click="submit">{{$t('lang.save')}}</el-button>
+              </div>
+            </el-dialog>
           </div>
       </div>
 
@@ -155,12 +79,17 @@
 </template>
 <script>
 import './style/base.scss';
+import cookie from './components/cookie'
+import localstorage from './components/localstorage'
+import sessionstorage from './components/sessionstorage'
 import detail from './table';
 import appHeader from './header';
 import setting from './setting'
   export default {
     data: () => {  
       return{
+         activeName: localStorage.getItem('handleClick') || 'cookie',
+         stretch:true,
          tableData:[],
          scope:'',
          url:'',
@@ -195,7 +124,8 @@ import setting from './setting'
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab, event);
+        localStorage.setItem('handleClick', tab.label)
+        console.log(tab.label);
       },
       getCookies(url){
         this.loading = true;
@@ -213,20 +143,7 @@ import setting from './setting'
       removeAll(){
         this.tableData = [];
       },
-      clickTable(row,index,e){
-           this.$refs.refTable.toggleRowExpansion(row)
-      },
-      numberToTime(timenumber) {
-          let t = timenumber*1000;
-          const date = new Date(t)
-          const Y = date.getFullYear() + '-'
-          const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
-          const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
-          let h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':'
-          let m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':'
-          let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
-          return Y + M + D + ' ' + h + m + s
-      },
+      
       handleEdit(index,data){
         this.form = {...data}
         this.dialogFormVisible = true;
@@ -293,7 +210,10 @@ import setting from './setting'
     components:{
       detail,
       appHeader,
-      setting
+      setting,
+      cookie,
+      localstorage,
+      sessionstorage
     }
   }
 </script>
