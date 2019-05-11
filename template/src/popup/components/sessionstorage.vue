@@ -9,6 +9,26 @@
       ref="refTable"
       style="width: 100%">
       <el-table-column
+        label=""
+        type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="name">
+              <span>{{ props.row.name }}</span>
+            </el-form-item>
+            <el-form-item label="value">
+              <el-input
+                readonly
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+                v-model="props.row.value">
+              </el-input>
+            </el-form-item>
+          </el-form> 
+        </template>
+      </el-table-column>
+      <el-table-column
         label="name"
         align='center'
         show-overflow-tooltip
@@ -17,6 +37,7 @@
       <el-table-column
         label="value"
         align='center'
+        width='320'
         show-overflow-tooltip
         prop="value">
       </el-table-column>
@@ -24,8 +45,7 @@
         class='cookie-value'
         label="more"
         align='center'
-        width='120'
-        show-overflow-tooltip
+        width='130'
         >
         <template slot-scope='scope'>
           <el-button
@@ -39,27 +59,48 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog title="" :visible.sync="dialogFormVisible">
+        <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="name">
+                <span>{{ edit.name }}</span>
+              </el-form-item>
+              <el-form-item label="value">
+                <el-input
+                  type="textarea"
+                  :rows="2" 
+                  placeholder="请输入内容"
+                  v-model="edit.value">
+                </el-input>
+              </el-form-item>
+            </el-form> 
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">{{$t('lang.cancel')}}</el-button>
+        <el-button type="primary" @click.stop="submit">{{$t('lang.save')}}</el-button>
+      </div>
+    </el-dialog>
  </div>
 </template>
 <script>
 export default {
   data: () => {  
     return{
-      data:[]
+      data:[],
+      edit:{
+        name:'',
+        value:'',
+      },
+      dialogFormVisible:false
     }
   },
   props: {
   },
   created(){
     this.getSessionStorage();
-    // let self = this;
-    // chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
-    //     self.getCookies(tab[0].url);
-    // })
   },
   methods:{
     getSessionStorage(){
       let self = this;
+      self.data = [];
       chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
         let tabId = tab[0].id;
         chrome.tabs.executeScript(
@@ -67,7 +108,6 @@ export default {
             { code: `JSON.stringify(sessionStorage)` },
             function(d) {
               var data = JSON.parse(d);
-              console.log(data)
               for (var name in data) {
                 let item = {};
                 var data = JSON.parse(d);
@@ -81,6 +121,45 @@ export default {
     },
     clickTable(row,index,e){
         this.$refs.refTable.toggleRowExpansion(row)
+    },
+    deleteItem(index,row){
+      let self= this;
+      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+        let tabId = tab[0].id;
+        chrome.tabs.executeScript(
+            tabId,
+            { code: `sessionStorage.removeItem('${row.name}')` },
+            function(d) {
+              self.$message({
+                message: `${row.name} is deleted`,
+                type: 'success'
+              });
+              self.data = self.data.filter((item)=>{return item.name != row.name})
+            }
+          )
+        })
+    },
+    editItem(index,row){
+      this.edit = {...row}
+      this.dialogFormVisible = true;
+    },
+    submit(){
+      let self= this;
+      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+        let tabId = tab[0].id;
+        chrome.tabs.executeScript(
+            tabId,
+            { code: `sessionStorage.setItem('${self.edit.name}','${self.edit.value}')`},
+            function(d) {
+              self.$message({
+                message: `update successful`,
+                type: 'success'
+              });
+              self.getSessionStorage();
+              self.dialogFormVisible = false;
+            }
+          )
+        })
     }
   }
 }

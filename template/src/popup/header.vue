@@ -12,7 +12,7 @@
           <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
             <i class="el-icon-delete" @click.stop='deleteAllCookie'></i>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
+          <el-tooltip v-show='activeName === "cookie"' class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
             <i @click.stop='$emit("exportJson")' class="el-icon-upload2"></i>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" :content="$t('lang.setting')" placement="top-start">
@@ -39,6 +39,9 @@ export default {
     },
     showSettingHandle:{
       default:()=>{}
+    },
+    activeName:{
+      default:()=>{return 'cookie'}
     }
   },
   methods:{
@@ -60,28 +63,47 @@ export default {
       }
     },
     deleteAllCookie(){
-      let self = this;
-      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
-      //  console.log(tab[0].url);
-       let url = tab[0].url
-       chrome.cookies.getAll({
-            'url': url
-        }, function (cookies) {
-            for (var i = 0; i < cookies.length; i++) {
-                chrome.cookies.remove({
-                    url: url+'' + cookies[i].path,
-                    name: cookies[i].name
-                })
-            }
-          self.$message({
-            message: `successfully remove`,
-            type: 'success'
-          });
-          self.$emit("removeAll");
+      if(this.activeName === 'cookie'){
+        alert('cookie')
+        let self = this;
+        chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+        let url = tab[0].url
+        chrome.cookies.getAll({
+              'url': url
+          }, function (cookies) {
+              for (var i = 0; i < cookies.length; i++) {
+                  chrome.cookies.remove({
+                      url: url+'' + cookies[i].path,
+                      name: cookies[i].name
+                  })
+              }
+            self.$message({
+              message: `successfully remove`,
+              type: 'success'
+            });
+            self.$emit("removeAll");
+          })
         })
-       })
-        
+        }else{
+          alert(`${this.activeName}.clear()`)
+            let self = this;
+            chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+              let tabId = tab[0].id;
+              chrome.tabs.executeScript(
+                  tabId,
+                  { code: `${self.activeName}.clear()` },
+                  function(d) {
+                    console.log(d);
+                    self.$message({
+                      message: `successfully remove`,
+                      type: 'success'
+                    });
+                  }
+                )
+            })
+        }
       }
+      
   }
 }
 </script>
@@ -91,7 +113,6 @@ export default {
         height:45px;
         display:flex;
         justify-content: space-between;
-        // border-bottom: 1px solid #eee;
         box-sizing: border-box;
         padding:5px 10px;
         i.el-icon-setting,i.el-icon-upload2,i.el-icon-delete{

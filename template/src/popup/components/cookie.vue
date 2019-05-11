@@ -70,29 +70,19 @@
                 class='cookie-value'
                 label="more"
                 align='center'
-                show-overflow-tooltip
+                width='130'
                 >
                 <template slot-scope='scope'>
-                  <!-- <i class="el-icon-edit" @click.stop="handleEdit(scope.$index, scope.row)"></i>
-                  <i class="el-icon-delete" @click.stop='handleDele(scope.$index, scope.row)'></i> -->
                   <el-button
                       size="mini"
-                      @click="editItem(scope.$index, scope.row)"><i class="el-icon-edit" @click.stop="editItem(scope.$index, scope.row)"></i></el-button>
+                      @click.stop="editItem(scope.$index, scope.row)">
+                      <i class="el-icon-edit"></i></el-button>
                     <el-button
                       size="mini"
                       type="danger"
                       @click.stop='deleteItem(scope.$index, scope.row)'
                       ><i class="el-icon-delete"></i></el-button>
                 </template>
-                <!-- <template slot="header" slot-scope="scope">
-                  <el-input
-                    v-model="search"
-                    size="mini"
-                    @change='filterValue(search)'
-                    width='30'
-                    clearable
-                    placeholder="值搜索"/>
-                </template> -->
               </el-table-column>
             </el-table>
  </div>

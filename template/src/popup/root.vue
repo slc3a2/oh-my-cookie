@@ -3,7 +3,7 @@
       
       <div v-if='showSetting' class='main'>
         <header>
-            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll'/>
+            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll' :activeName='activeName'/>
         </header>
         <div class='content'>
 
@@ -11,23 +11,14 @@
             <el-tab-pane label="cookie" name="cookie">
               <cookie :data='tableData' @handleEdit='handleEdit'  @handleDele='handleDele'/>
             </el-tab-pane>
-            <el-tab-pane label="localstorage" name="localstorage">
+            <el-tab-pane label="localStorage" name="localStorage">
               <localstorage />
             </el-tab-pane>
-            <el-tab-pane label="sessionstorage" name="sessionstorage">
+            <el-tab-pane label="sessionStorage" name="sessionStorage">
               <sessionstorage />
             </el-tab-pane>
           </el-tabs>
-
-
-
-
-
-
-            <!-- <button @click='exportJson'>导出JSON格式cookie</button> -->
-            <!-- <el-input class='input' v-model="url" placeholder="Write the url" clearable @keyup.enter.native='getCookies(input)'></el-input> -->
             <input class='exportJson'  ref='exportJson' v-model='JSONCookie'/>
-            
             <!-- 对话窗 -->
               <el-dialog title="" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
@@ -125,7 +116,6 @@ import setting from './setting'
     methods: {
       handleClick(tab, event) {
         localStorage.setItem('handleClick', tab.label)
-        console.log(tab.label);
       },
       getCookies(url){
         this.loading = true;
@@ -232,8 +222,18 @@ import setting from './setting'
       background-color:#fff;
       z-index:2;
     }
+    .el-tabs{ 
+      .el-tabs__nav-wrap{
+        width: 100%;
+        position: fixed;
+        top: 36px;
+        left: 0;
+        background-color: #fff;
+        z-index: 2;
+      }
+    }
     .content{
-      padding-top:45px;
+      padding-top:78px;
         .el-dialog__header{
           padding:0;
         }
