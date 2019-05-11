@@ -7,3 +7,8 @@
 1.增加全部删除按钮  
 
 2.增加商店评分链接
+
+##### v1.1.1
+1.增加localstorage和sessionstorage管理
+
+2.调整界面
