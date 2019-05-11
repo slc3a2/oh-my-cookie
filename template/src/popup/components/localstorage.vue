@@ -164,6 +164,24 @@ export default {
             }
           )
         })
+    },
+    deleteAll(){
+      let self = this;
+      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+        let tabId = tab[0].id;
+        chrome.tabs.executeScript(
+            tabId,
+            { code: `localStorage.clear()` },
+            function(d) {
+              console.log(d);
+              self.$message({
+                message: `successfully remove`,
+                type: 'success'
+              });
+              self.data = [];
+            }
+          )
+      })
     }
   }
 }

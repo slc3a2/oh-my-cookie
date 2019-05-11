@@ -10,7 +10,7 @@
         </div>
         <div>
           <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
-            <i class="el-icon-delete" @click.stop='deleteAllCookie'></i>
+            <i class="el-icon-delete" @click.stop='deleteAll'></i>
           </el-tooltip>
           <el-tooltip v-show='activeName === "cookie"' class="item" effect="dark" :content="$t('lang.export')" placement="top-start">
             <i @click.stop='$emit("exportJson")' class="el-icon-upload2"></i>
@@ -62,9 +62,8 @@ export default {
         this.lang = 'En'
       }
     },
-    deleteAllCookie(){
+    deleteAll(){
       if(this.activeName === 'cookie'){
-        alert('cookie')
         let self = this;
         chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
         let url = tab[0].url
@@ -81,29 +80,13 @@ export default {
               message: `successfully remove`,
               type: 'success'
             });
-            self.$emit("removeAll");
+            self.$emit("removeAll",'cookie');
           })
         })
         }else{
-          alert(`${this.activeName}.clear()`)
-            let self = this;
-            chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
-              let tabId = tab[0].id;
-              chrome.tabs.executeScript(
-                  tabId,
-                  { code: `${self.activeName}.clear()` },
-                  function(d) {
-                    console.log(d);
-                    self.$message({
-                      message: `successfully remove`,
-                      type: 'success'
-                    });
-                  }
-                )
-            })
+          this.$emit("removeAll",this.activeName);
         }
       }
-      
   }
 }
 </script>

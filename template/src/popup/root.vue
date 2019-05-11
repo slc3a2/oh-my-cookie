@@ -12,10 +12,10 @@
               <cookie :data='tableData' @handleEdit='handleEdit'  @handleDele='handleDele'/>
             </el-tab-pane>
             <el-tab-pane label="localStorage" name="localStorage">
-              <localstorage />
+              <localstorage ref='localStorage'/>
             </el-tab-pane>
             <el-tab-pane label="sessionStorage" name="sessionStorage">
-              <sessionstorage />
+              <sessionstorage ref='sessionStorage'/>
             </el-tab-pane>
           </el-tabs>
             <input class='exportJson'  ref='exportJson' v-model='JSONCookie'/>
@@ -130,10 +130,15 @@ import setting from './setting'
       deleteCookie(idx){
         this.tableData = this.tableData.filter((item,index)=>{return idx != index})
       },
-      removeAll(){
-        this.tableData = [];
+      removeAll(activeName){
+        if(activeName === 'cookie'){
+          this.tableData = [];
+        }else if(activeName === 'localStorage'){
+          this.$refs.localStorage.deleteAll();
+        }else if(activeName === 'sessionStorage'){
+          this.$refs.sessionStorage.deleteAll()
+        }
       },
-      
       handleEdit(index,data){
         this.form = {...data}
         this.dialogFormVisible = true;
