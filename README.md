@@ -3,8 +3,9 @@
 
 [install](https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN)
 <div style='text-align:center;'><img width='600px' height='350px;' src='https://raw.githubusercontent.com/llqi/oh-my-cookie/master/publicity.png' alt='publicity image'/></div>
+
 ##### v1.0.1
-1.增加全部删除cookie功能  
+1.增加全部删除cookie功能 
 
 2.增加商店评分链接
 
