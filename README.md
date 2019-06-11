@@ -7,11 +7,11 @@
 <div style='text-align:center;'><img width='600px' height='350px;' src='https://raw.githubusercontent.com/llqi/oh-my-cookie/master/publicity.png' alt='publicity image'/></div>
 
 ### v1.0.1
-1.增加全部删除cookie功能 
+ - 增加全部删除cookie功能 
 
-2.增加商店评分链接
+ - 增加商店评分链接
 
 ### v1.1.1
-1.增加localstorage和sessionstorage管理
+ - 增加localstorage和sessionstorage管理
 
-2.调整界面
+ - 调整界面
