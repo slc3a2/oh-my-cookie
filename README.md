@@ -4,7 +4,7 @@
 [谷歌安装](https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN) 
 
 [国内安装](https://www.chromefor.com/ohmycookie_v1-1-1/)
-<div style='text-align:center;'><img width='600px' height='350px;' src='https://raw.githubusercontent.com/llqi/oh-my-cookie/master/publicity.png' alt='publicity image'/></div>
+<div style='text-align:center;'><img width='600px' height='350px;' src='https://i.loli.net/2020/05/19/95tvnW1rHmRgNwu.png' alt='publicity image'/></div>
 
 #### v1.0.1
  - 增加全部删除cookie功能 
