@@ -1,7 +1,7 @@
 
 module.exports = {
   name: 'OhMyCookie',
-  version: '1.0.1',
+  version: '1.1.2',
   description: 'Cookies Manager',
   author: 'liangqi',
   manifest_version: 2,
