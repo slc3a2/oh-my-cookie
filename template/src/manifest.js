@@ -7,7 +7,6 @@ module.exports = {
   manifest_version: 2,
   icons: { '16': 'icons/logo16.png', '128': 'icons/logo128.png' },
   permissions: [
-    "\u003Call_urls\u003E",
     'activeTab',
     'tabs',
     'cookies', 
