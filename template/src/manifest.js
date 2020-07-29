@@ -3,7 +3,7 @@ module.exports = {
   name: 'OhMyCookie',
   version: '1.1.2',
   description: 'Cookies Manager',
-  author: 'liangqi',
+  author: 'liang Qi',
   manifest_version: 2,
   icons: { '16': 'icons/logo16.png', '128': 'icons/logo128.png' },
   permissions: [
