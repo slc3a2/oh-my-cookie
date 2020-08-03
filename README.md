@@ -6,7 +6,7 @@
 
 [谷歌安装](https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN) 
 
-[国内安装](https://www.chromefor.com/ohmycookie_v1-1-1/)
+[国内安装](https://www.chromefor.com/ohmycookie_v1-1-2/)
 
 ## Start
 ```shell
