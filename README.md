@@ -1,4 +1,4 @@
-## ohMyCookie
+## oh-my-cookie
 >一个用于导出，增删改查`cookie`、`sessionstorage`、`localstorage`的Chrome扩展
 <div style='text-align:center;'><img width='600px' height='350px;' src='https://i.loli.net/2020/05/19/95tvnW1rHmRgNwu.png' alt='example image'/></div>
 
