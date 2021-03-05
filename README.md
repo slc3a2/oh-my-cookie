@@ -27,13 +27,7 @@ npm run dev
  - 打开Chrome，进入地址：chrome://extensions/
  - 打开右上角开发者开关，点击左上角加载已解压扩展程序
  - 选择上一步得到的build项目文件夹即可
-
-```shell
-cd ./template
-npm run build
-cd ./build
-```  
-
+ 
 ## 版本
 
 - v1.0.1
