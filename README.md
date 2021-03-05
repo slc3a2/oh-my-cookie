@@ -17,10 +17,16 @@ Chrome扩展基于`css`，`html`，`javascript`(`jQuery`)，并附加一些chrom
 
 ```shell
 cd ./template
+npm install
+# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成build文件夹
 npm run dev
+# 把根目录的./template/manifest.json复制到build中，就可以在浏览器中安装了
 ```  
 
-## 构建  
+## 安装
+ - 打开Chrome，进入地址：chrome://extensions/
+ - 打开右上角开发者开关，点击左上角加载已解压扩展程序
+ - 选择上一步得到的build项目文件夹即可
 
 ```shell
 cd ./template
