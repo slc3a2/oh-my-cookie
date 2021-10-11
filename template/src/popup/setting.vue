@@ -55,10 +55,10 @@ export default {
         // console.log(val);
       },
       seeCode(){
-          window.open('https://github.com/llqi/oh-my-cookie')
+          window.open('https://github.com/codedance98/oh-my-cookie')
       },
       issues(){
-          window.open('https://github.com/llqi/oh-my-cookie/issues')
+          window.open('https://github.com/codedance98/oh-my-cookie/issues')
       },
       goLibrary(){
           window.open('https://github.com/YuraDev/vue-chrome-extension-template')

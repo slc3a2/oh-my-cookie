@@ -1,14 +1,14 @@
 <template>
     <div class='header'>
         <div>
-            <a href="https://github.com/llqi/oh-my-cookie" target="_blank">
-                <img class='logo' src="./img/logo.png" alt="">
+            <a href="https://github.com/codedance98/oh-my-cookie" target="_blank">
+              <img class='logo' src="./img/logo.png" alt="">
             </a>
         </div>
-        <div class='name'>
+        <div class="name">
             <!-- oh my cookie -->
         </div>
-        <div>
+        <div class="others">
           <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
             <i class="el-icon-delete" @click.stop='deleteAll'></i>
           </el-tooltip>
@@ -98,6 +98,9 @@ export default {
         justify-content: space-between;
         box-sizing: border-box;
         padding:5px 10px;
+        .others, .logo{
+          user-select: none;
+        }
         i.el-icon-setting,i.el-icon-upload2,i.el-icon-delete{
             font-size: 25px;
             cursor: pointer;

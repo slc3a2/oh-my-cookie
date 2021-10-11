@@ -1,12 +1,10 @@
 <template>
     <div class='root'>
-      
       <div v-if='showSetting' class='main'>
         <header>
-            <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll' :activeName='activeName'/>
+          <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll' :activeName='activeName'/>
         </header>
         <div class='content'>
-
           <el-tabs v-model="activeName" @tab-click="handleClick" :stretch="stretch">
             <el-tab-pane label="cookie" name="cookie">
               <cookie :data='tableData' @handleEdit='handleEdit'  @handleDele='handleDele'/>
@@ -32,7 +30,7 @@
                     <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
                   </el-form-item>
                   <el-form-item label="expirationDate" >
-                    <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
+                    <el-input v-model.number="form.expirationDate" autocomplete="off"></el-input>
                   </el-form-item>
                   <el-form-item label="path" >
                     <el-input v-model="form.path" autocomplete="off"></el-input>
@@ -121,6 +119,7 @@ import setting from './setting'
         this.loading = true;
         let self = this;
         chrome.cookies.getAll({"url":url},function (res){
+          console.log(res)
           self.tableData = res
           setTimeout(()=>{
             self.loading = false
@@ -158,13 +157,14 @@ import setting from './setting'
         let temp = this.form
         delete temp.hostOnly
         delete temp.session
+        console.log(temp)
         chrome.cookies.set({
             "url": self.currentPage,
             ...temp
         }, function (cookie) {
-            //reload
-            self.getCookies(self.currentPage);
+            console.log(cookie)
             self.dialogFormVisible = false
+            // self.tableData = cookie
             self.$message({
               message: `update successful`,
               type: 'success'
@@ -213,72 +213,74 @@ import setting from './setting'
   }
 </script>
 <style lang="scss">
-  body::-webkit-scrollbar { width: 0 !important };
-  .root {
-    width:600px;
-    height:400px;
-    position:relative;
-    padding:2px 5px 10px;
-    .header{
-      width:100%;
-      position:fixed;
-      top:0;
-      left:0;
-      background-color:#fff;
-      z-index:2;
+body::-webkit-scrollbar { width: 0 !important };
+.root {
+  width:600px;
+  height:600px;
+  position:relative;
+  padding:2px 5px 10px;
+  .header{
+    width:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background-color:#fff;
+    z-index:2;
+  }
+  .el-tabs{ 
+    .el-tabs__nav-wrap{
+      width: 100%;
+      position: fixed;
+      top: 36px;
+      left: 0;
+      background-color: #fff;
+      z-index: 2;
     }
-    .el-tabs{ 
-      .el-tabs__nav-wrap{
-        width: 100%;
-        position: fixed;
-        top: 36px;
-        left: 0;
-        background-color: #fff;
-        z-index: 2;
+  }
+  .content{
+    padding-top:78px;
+    .el-tabs__item{
+      user-select: none;
+    }
+    .el-dialog__header{
+      padding:0;
+    }
+    .input{
+      margin-bottom:10px;
+    }
+    .exportJson {
+      position:absolute;
+      left:-1000px;
+    }
+    .demo-table-expand {
+      font-size: 0;
+    }
+    .demo-table-expand label {
+      width: 90px;
+      color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+    .el-form--inline .el-form-item{
+      display:block;
+      .el-form-item__content{
+        width:81%;
       }
     }
-    .content{
-      padding-top:78px;
-        .el-dialog__header{
-          padding:0;
-        }
-        .input{
-          margin-bottom:10px;
-        }
-        .exportJson {
-          position:absolute;
-          left:-1000px;
-        }
-        .demo-table-expand {
-          font-size: 0;
-        }
-        .demo-table-expand label {
-          width: 90px;
-          color: #99a9bf;
-        }
-        .demo-table-expand .el-form-item {
-          margin-right: 0;
-          margin-bottom: 0;
-          // width: 50%;
-        }
-        .el-form--inline .el-form-item{
-          display:block;
-          .el-form-item__content{
-            width:81%;
-          }
-        }
-        .el-table__row{
-          cursor: pointer;
-          .el-textarea{
-            width:100%;
-          }
-        }
-        .el-dialog{
-          width:90%;
-          .el-form-item{
-            margin-bottom:0px;
-          }
-        }
+    .el-table__row{
+      cursor: pointer;
+      .el-textarea{
+        width:100%;
       }
     }
+    .el-dialog{
+      width:90%;
+      .el-form-item{
+        margin-bottom:0px;
+      }
+    }
+  }
+}
 </style>
