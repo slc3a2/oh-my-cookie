@@ -3,8 +3,11 @@ import root from './root.vue'
 import ElementUI from 'element-ui'
 import VueI18n from 'vue-i18n'
 import 'element-ui/lib/theme-chalk/index.css'
+import enLocale from 'element-ui/lib/locale/lang/en'
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(ElementUI, {
+  locale: enLocale
+})
 Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: localStorage.getItem('lang') || 'en-US', 

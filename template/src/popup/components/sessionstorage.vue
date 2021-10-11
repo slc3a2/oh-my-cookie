@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="sessionstorage-page">
     <el-table
       :data="data"
       :empty-text="$t('lang.empty')"
@@ -182,8 +182,12 @@ export default {
   }
 }
 </script>
-<style>
-
+<style lang="scss">
+.sessionstorage-page{
+  .el-form-item__label{
+    padding-left: 10px;
+  }
+}
 </style>
 
 

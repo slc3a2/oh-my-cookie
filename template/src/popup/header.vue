@@ -18,9 +18,9 @@
           <el-tooltip class="item" effect="dark" :content="$t('lang.setting')" placement="top-start">
             <i class='el-icon-setting'  @click.stop='showSetting'></i>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" :content="$t('lang.lang')" placement="top-start">
+          <!-- <el-tooltip class="item" effect="dark" :content="$t('lang.lang')" placement="top-start">
             <i class='lang' @click='changeLang'>{{lang}}</i>
-          </el-tooltip>
+          </el-tooltip> -->
         </div>
     </div>
 </template>
@@ -28,7 +28,7 @@
 export default {
   data: () => {  
     return{
-      lang:'Zh'
+      lang:'En'
     }
   },
   props: {

@@ -7,7 +7,7 @@
         <div class='content'>
           <el-tabs v-model="activeName" @tab-click="handleClick" :stretch="stretch">
             <el-tab-pane label="cookie" name="cookie">
-              <cookie :data='tableData' @handleEdit='handleEdit'  @handleDele='handleDele'/>
+              <cookie :data='tableData' @handleEdit='handleEdit' @handleDele='handleDele'/>
             </el-tab-pane>
             <el-tab-pane label="localStorage" name="localStorage">
               <localstorage ref='localStorage'/>
@@ -16,8 +16,7 @@
               <sessionstorage ref='sessionStorage'/>
             </el-tab-pane>
           </el-tabs>
-            <input class='exportJson'  ref='exportJson' v-model='JSONCookie'/>
-            <!-- 对话窗 -->
+            <input class='exportJson' ref='exportJson' v-model='JSONCookie'/>
               <el-dialog title="" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
                   <el-form-item label="domain" >
@@ -26,19 +25,25 @@
                   <el-form-item label="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                   </el-form-item>
-                  <el-form-item label="value" >
+                  <el-form-item label="value">
                     <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
                   </el-form-item>
-                  <el-form-item label="expirationDate" >
-                    <el-input v-model.number="form.expirationDate" autocomplete="off"></el-input>
+                  <el-form-item label="expirationDate">
+                    <el-date-picker
+                      v-model="form.expirationDate"
+                      value-format="timestamp"
+                      type="datetime"
+                      placeholder="">
+                    </el-date-picker>
+                    <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
                   </el-form-item>
-                  <el-form-item label="path" >
+                  <el-form-item label="path">
                     <el-input v-model="form.path" autocomplete="off"></el-input>
                   </el-form-item>
-                  <el-form-item label="sameSite" >
+                  <el-form-item label="sameSite">
                     <el-input v-model="form.sameSite" autocomplete="off"></el-input>
                   </el-form-item>
-                  <el-form-item label="httpOnly" >
+                  <el-form-item label="httpOnly">
                     <el-tooltip :content="'httpOnly value: ' + form.httpOnly" placement="top">
                       <el-switch v-model="form.httpOnly">
                       </el-switch>
@@ -59,9 +64,8 @@
             </el-dialog>
           </div>
       </div>
-
       <div v-else class='setting'>
-        <setting  @hideSettingHandle='hideSettingHandle'/>
+        <setting @hideSettingHandle='hideSettingHandle'/>
       </div>
       
   </div>
@@ -90,6 +94,7 @@ import setting from './setting'
            domain:'',
            name:'',
            value:'',
+           expirationDate: '',
            path: '',
            sameSite:'',
            hostOnly:false,
@@ -106,7 +111,7 @@ import setting from './setting'
     },
     created () {
        let self = this;
-       chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+       chrome.tabs.query({"windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
           self.currentPage = tab[0].url;
           self.getCookies(tab[0].url);
        })
@@ -120,10 +125,15 @@ import setting from './setting'
         let self = this;
         chrome.cookies.getAll({"url":url},function (res){
           console.log(res)
-          self.tableData = res
+          self.tableData = res.map((i) => {
+            return {
+              ...i,
+              expirationDate: String(i.expirationDate).length === 10 ? i.expirationDate * 1000 : i.expirationDate
+            }
+          })
           setTimeout(()=>{
             self.loading = false
-          },300)
+          },100)
         })
       },
       deleteCookie(idx){
@@ -164,7 +174,6 @@ import setting from './setting'
         }, function (cookie) {
             console.log(cookie)
             self.dialogFormVisible = false
-            // self.tableData = cookie
             self.$message({
               message: `update successful`,
               type: 'success'

@@ -1,5 +1,5 @@
 <template>
-  <div class="cookie-table-page">
+  <div class="cookie-page">
      <el-table
       :data="data"
       :empty-text="$t('lang.empty')"
@@ -131,7 +131,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.cookie-table-page{
+.cookie-page{
   .el-form-item__label{
     padding-left: 10px;
   }
