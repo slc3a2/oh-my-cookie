@@ -17,31 +17,30 @@ Chrome扩展基于`css`，`html`，`javascript`(`jQuery`)，并附加一些chrom
 
 ```shell
 cd ./template
-npm install
-# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成build文件夹
+# 安装以来
+yarn
+# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成build文件夹，把根目录的./template/manifest.json复制到build中，就可以在浏览器中安装了
 npm run dev
-# 把根目录的./template/manifest.json复制到build中，就可以在浏览器中安装了
-```  
+```
 
 ## 安装
- - 打开Chrome，进入地址：chrome://extensions/
- - 打开右上角开发者开关，点击左上角加载已解压扩展程序
- - 选择上一步得到的build项目文件夹即可
- 
+ - 打开Chrome，进入地址：`chrome://extensions/`
+ - 打开右上角开发者开关，点击左上角`加载已解压扩展程序`
+ - 选择上一步得到的`build`项目文件夹即可
+
 ## 版本
 
-- v1.0.1
+- **v1.0.1**
  1. 增加全部删除`cookie`功能 
  2. 增加商店评分链接
 
-- v1.1.1
+- **v1.1.1**
  1. 增加`localStorage`和`sessionStorage`管理
  2. 调整并优化操作界面
 
-- v1.1.2
+- **v1.1.2**
  1. 调整扩展权限，以达到扩展商店快速审核标准
 
-- v1.1.3
+- **v1.1.3**
  1. 删除多余的权限，用与发布到谷歌商店
-
 
