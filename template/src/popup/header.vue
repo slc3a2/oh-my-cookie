@@ -77,7 +77,7 @@ export default {
                   })
               }
             self.$message({
-              message: `successfully remove`,
+              message: `success`,
               type: 'success'
             });
             self.$emit("removeAll",'cookie');

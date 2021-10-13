@@ -20,7 +20,7 @@
                 <div>{{$t('lang.lib')}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
-            <div class='item'>
+            <div class='item' @click='watchVersionDetail'>
                 <div>{{$t('lang.ver')}}  {{version}}</div>
                 <div><i class="el-icon-arrow-right"></i></div>
             </div>
@@ -65,6 +65,9 @@ export default {
       },
       comments(){
           window.open('https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN')
+      },
+      watchVersionDetail(){
+          window.open('https://github.com/codedance98/oh-my-cookie#%E7%89%88%E6%9C%AC')
       }
   }
 }

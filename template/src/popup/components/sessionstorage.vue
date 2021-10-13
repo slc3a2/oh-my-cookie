@@ -131,7 +131,7 @@ export default {
             { code: `sessionStorage.removeItem('${row.name}')` },
             function(d) {
               self.$message({
-                message: `${row.name} is deleted`,
+                message: `${row.name} was deleted`,
                 type: 'success'
               });
               self.data = self.data.filter((item)=>{return item.name != row.name})
@@ -152,7 +152,7 @@ export default {
             { code: `sessionStorage.setItem('${self.edit.name}','${self.edit.value}')`},
             function(d) {
               self.$message({
-                message: `update successful`,
+                message: `success`,
                 type: 'success'
               });
               self.getSessionStorage();
@@ -171,7 +171,7 @@ export default {
             function(d) {
               console.log(d);
               self.$message({
-                message: `successfully remove`,
+                message: `success`,
                 type: 'success'
               });
               self.data = [];
