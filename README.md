@@ -3,7 +3,7 @@
 <div style='text-align:center;'><img width='600px' height='350px;' src='https://i.loli.net/2020/05/19/95tvnW1rHmRgNwu.png' alt='example image'/></div>
 
 ## 介绍  
-Chrome扩展基于`css`，`html`，`javascript`(`jQuery`)，并附加一些chrome发明的独特语法，用来扩展chrome浏览器的功能。你也可以使用现代mvvm框架进行开发，例如本项目基于`vue@2.5.2`和`element-ui@2.0.1`，最后生成构建后可直接被浏览器解析的js用于部署。与常规web开发不同，需要自行调整webpack配置，或使用开源脚手架，这里推荐一款基本vue-cli的扩展脚手架工具为[vtemp-chrome-extension](https://github.com/kinglisky/vtemp-chrome-extension)。更多内容参考文档自己摸索吧。
+Chrome扩展基于`css`，`html`，`javascript`(`jQuery`)，并附加一些chrome发明的独特语法，用来扩展chrome浏览器的功能。你也可以使用现代mvvm框架进行开发，例如本项目基于`vue@2.5.2`和`element-ui@2.0.1`，最后生成构建后可直接被浏览器解析的js用于部署。与常规web开发不同，需要自行调整webpack配置，或使用开源脚手架，这里推荐一款基本vue-cli的扩展脚手架工具为 [vtemp-chrome-extension](https://github.com/kinglisky/vtemp-chrome-extension) 。更多内容参考文档自己摸索吧。
 
 ## 资源
 
@@ -17,7 +17,7 @@ Chrome扩展基于`css`，`html`，`javascript`(`jQuery`)，并附加一些chrom
 
 ```shell
 cd ./template
-# 安装以来
+# 安装依赖
 yarn
 # dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成build文件夹，把根目录的./template/manifest.json复制到build中，就可以在浏览器中安装了
 npm run dev
