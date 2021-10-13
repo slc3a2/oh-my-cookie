@@ -30,7 +30,7 @@
               <span>{{ props.row.path }}</span>
             </el-form-item>
             <el-form-item label="expiration">
-              <span>{{ props.row.hasOwnProperty("expirationDate") ? numberToTime(props.row.expirationDate) : "-" }}</span>
+              <span>{{ (props.row.hasOwnProperty("expirationDate") && props.row.expirationDate) ? numberToTime(props.row.expirationDate) : "-" }}</span>
             </el-form-item>
             <el-form-item label="hostOnly">
               <span>{{ props.row.hostOnly }}</span>
@@ -108,16 +108,16 @@ export default {
   },
   methods:{
     editItem(index, row){
-        this.$emit('handleEdit', index, row);
+        this.$emit('handleEdit', index, row)
     },
     deleteItem(index, row){
-        this.$emit('handleDele', index, row);
+        this.$emit('handleDele', index, row)
     },
     clickTable(row,index,e){
         this.$refs.refTable.toggleRowExpansion(row)
     },
     numberToTime(timenumber) {
-        let t = timenumber*1000;
+        let t = String(parseInt(timenumber)).length === 10 ? timenumber * 1000 : timenumber
         const date = new Date(t)
         const Y = date.getFullYear() + '-'
         const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'

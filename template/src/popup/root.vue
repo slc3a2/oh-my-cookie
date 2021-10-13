@@ -29,13 +29,14 @@
                     <el-input type="textarea" :rows="2" v-model="form.value" autocomplete="off"></el-input>
                   </el-form-item>
                   <el-form-item label="expirationDate">
+                    <br/>
                     <el-date-picker
                       v-model="form.expirationDate"
                       value-format="timestamp"
                       type="datetime"
                       placeholder="">
                     </el-date-picker>
-                    <el-input v-model="form.expirationDate" autocomplete="off"></el-input>
+                    <!-- <el-input v-model="form.expirationDate" autocomplete="off"></el-input> -->
                   </el-form-item>
                   <el-form-item label="path">
                     <el-input v-model="form.path" autocomplete="off"></el-input>
@@ -128,7 +129,7 @@ import setting from './setting'
           self.tableData = res.map((i) => {
             return {
               ...i,
-              expirationDate: String(i.expirationDate).length === 10 ? i.expirationDate * 1000 : i.expirationDate
+              expirationDate: String(parseInt(i.expirationDate)).length === 10 ? i.expirationDate * 1000 : i.expirationDate
             }
           })
           setTimeout(()=>{
@@ -156,7 +157,7 @@ import setting from './setting'
         chrome.cookies.remove({url:this.currentPage, name: data.name},
         (res)=>{
           this.$message({
-            message: `${res.name} is deleted`,
+            message: `${res.name} was deleted`,
             type: 'success'
           });
           this.tableData = this.tableData.filter((item)=>{return item.name != res.name})
@@ -174,10 +175,15 @@ import setting from './setting'
         }, function (cookie) {
             console.log(cookie)
             self.dialogFormVisible = false
+            chrome.tabs.query({"windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
+                self.currentPage = tab[0].url;
+                self.getCookies(tab[0].url);
+            })
             self.$message({
-              message: `update successful`,
+              message: `success`,
               type: 'success'
             });
+            
         });
       },
       // 暂时不用
@@ -197,7 +203,7 @@ import setting from './setting'
         if (document.execCommand('copy')) {
           document.execCommand('copy');
           this.$message({
-            message: `copy successful`,
+            message: `success`,
             type: 'success'
           });
         }else{
@@ -286,6 +292,7 @@ body::-webkit-scrollbar { width: 0 !important };
     }
     .el-dialog{
       width:90%;
+      margin-top:12vh!important;
       .el-form-item{
         margin-bottom:0px;
       }

@@ -135,7 +135,7 @@ export default {
             function(d) {
               console.log(d);
               self.$message({
-                message: `${row.name} is deleted`,
+                message: `${row.name} was deleted`,
                 type: 'success'
               });
               self.data = self.data.filter((item)=>{return item.name != row.name})
@@ -156,7 +156,7 @@ export default {
             { code: `localStorage.setItem('${self.edit.name}','${self.edit.value}')`},
             function(d) {
               self.$message({
-                message: `update successful`,
+                message: `success`,
                 type: 'success'
               });
               self.getLocalStorage();
@@ -175,7 +175,7 @@ export default {
             function(d) {
               console.log(d);
               self.$message({
-                message: `successfully remove`,
+                message: `success`,
                 type: 'success'
               });
               self.data = [];
