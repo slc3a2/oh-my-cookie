@@ -55,3 +55,10 @@ npm run dev
   3.新增信息操作后回显
 
   4.提醒简化，等若干细节优化
+
+- **v1.1.5**
+
+  1.新增创建`cookie`、`localStorage`和`sessionStorage`功能
+
+  2.新增可以修改国际化文案功能
+
