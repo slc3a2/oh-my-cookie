@@ -21,7 +21,7 @@
                 readonly
                 type="textarea"
                 :rows="2"
-                placeholder="请输入内容"
+                placeholder=""
                 v-model="props.row.value">
               </el-input>
             </el-form-item>
@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column
         class='cookie-value'
-        label="more"
+        label="action"
         align='center'
         width='130'
         >
@@ -60,15 +60,21 @@
       </el-table-column>
     </el-table>
     <el-dialog title="" :visible.sync="dialogFormVisible">
-        <el-form label-position="left" inline class="demo-table-expand">
+        <el-form label-position="left" class="demo-table-expand">
               <el-form-item label="name">
-                <span>{{ edit.name }}</span>
+                <!-- <span>{{ edit.name }}</span> -->
+                <el-input
+                  type="textarea"
+                  :rows="2" 
+                  placeholder=""
+                  v-model="edit.name">
+                </el-input>
               </el-form-item>
               <el-form-item label="value">
                 <el-input
                   type="textarea"
                   :rows="2" 
-                  placeholder="请输入内容"
+                  placeholder=""
                   v-model="edit.value">
                 </el-input>
               </el-form-item>
@@ -132,7 +138,8 @@ export default {
             function(d) {
               self.$message({
                 message: `${row.name} was deleted`,
-                type: 'success'
+                type: 'success',
+                showClose: true
               });
               self.data = self.data.filter((item)=>{return item.name != row.name})
             }
@@ -153,7 +160,8 @@ export default {
             function(d) {
               self.$message({
                 message: `success`,
-                type: 'success'
+                type: 'success',
+                showClose: true
               });
               self.getSessionStorage();
               self.dialogFormVisible = false;
@@ -169,10 +177,10 @@ export default {
             tabId,
             { code: `sessionStorage.clear()` },
             function(d) {
-              console.log(d);
               self.$message({
                 message: `success`,
-                type: 'success'
+                type: 'success',
+                showClose: true
               });
               self.data = [];
             }

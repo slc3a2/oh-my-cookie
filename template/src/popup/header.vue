@@ -1,14 +1,19 @@
 <template>
     <div class='header'>
         <div>
+          <el-tooltip class="item" effect="dark" content="Welecome" placement="top-start">
             <a href="https://github.com/codedance98/oh-my-cookie" target="_blank">
               <img class='logo' src="./img/logo.png" alt="">
             </a>
+          </el-tooltip>
         </div>
         <div class="name">
             <!-- oh my cookie -->
         </div>
         <div class="others">
+          <el-tooltip class="item" effect="dark" :content="$t('lang.create')" placement="top-start">
+            <i class="el-icon-plus" @click.stop='create'></i>
+          </el-tooltip>
           <el-tooltip class="item" effect="dark" :content="$t('lang.remove')" placement="top-start">
             <i class="el-icon-delete" @click.stop='deleteAll'></i>
           </el-tooltip>
@@ -18,9 +23,9 @@
           <el-tooltip class="item" effect="dark" :content="$t('lang.setting')" placement="top-start">
             <i class='el-icon-setting'  @click.stop='showSetting'></i>
           </el-tooltip>
-          <!-- <el-tooltip class="item" effect="dark" :content="$t('lang.lang')" placement="top-start">
+          <el-tooltip class="item" effect="dark" :content="$t('lang.lang')" placement="top-start">
             <i class='lang' @click='changeLang'>{{lang}}</i>
-          </el-tooltip> -->
+          </el-tooltip>
         </div>
     </div>
 </template>
@@ -37,7 +42,16 @@ export default {
         return ''
       }
     },
-    showSettingHandle:{
+    createCookie:{
+      default:()=>{}
+    },
+    createLocal:{
+      default:()=>{}
+    },
+    createCookie:{
+      default:()=>{}
+    },
+    createSession:{
       default:()=>{}
     },
     activeName:{
@@ -62,6 +76,15 @@ export default {
         this.lang = 'En'
       }
     },
+    create(){
+      if(this.activeName === 'cookie'){
+        this.$emit('createCookie');
+      }else if(this.activeName === 'localStorage'){
+        this.$emit('createLocal');
+      }else if(this.activeName === 'sessionStorage'){
+        this.$emit('createSession');
+      }
+    },
     deleteAll(){
       if(this.activeName === 'cookie'){
         let self = this;
@@ -78,7 +101,8 @@ export default {
               }
             self.$message({
               message: `success`,
-              type: 'success'
+              type: 'success',
+              showClose: true
             });
             self.$emit("removeAll",'cookie');
           })
@@ -101,7 +125,7 @@ export default {
         .others, .logo{
           user-select: none;
         }
-        i.el-icon-setting,i.el-icon-upload2,i.el-icon-delete{
+        i.el-icon-setting,i.el-icon-upload2,i.el-icon-delete,i.el-icon-plus{
             font-size: 25px;
             cursor: pointer;
             line-height: 40px;

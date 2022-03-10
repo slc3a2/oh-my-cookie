@@ -12,5 +12,5 @@ export const lang = {
     ver:'version',
     empty:'no data',
     copy:'copy successful',
-
+    create:'create'
   }

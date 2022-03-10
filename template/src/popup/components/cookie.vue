@@ -68,7 +68,7 @@
       </el-table-column>
       <el-table-column
         class='cookie-value'
-        label="more"
+        label="action"
         align='center'
         width='130'
         >

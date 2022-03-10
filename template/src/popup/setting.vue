@@ -1,6 +1,6 @@
 <template>
     <div class='setting'>
-        <header>
+        <header class='back-block'>
             <i class="el-icon-arrow-left" @click.stop='back'></i>
         </header>
         <section>
@@ -74,8 +74,7 @@ export default {
 </script>
 <style lang='scss'>
 .setting{
-    
-    header{
+    header.back-block{
         padding-top:10px;
         padding-left:4px;
         .el-icon-arrow-left{

@@ -2,7 +2,7 @@
     <div class='root'>
       <div v-if='showSetting' class='main'>
         <header>
-          <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @removeAll='removeAll' :activeName='activeName'/>
+          <appHeader @showSettingHandle='showSettingHandle' @exportJson='exportJson' @createCookie='handleEdit' @createLocal='editLocal' @createSession='editSession' @removeAll='removeAll' :activeName='activeName'/>
         </header>
         <div class='content'>
           <el-tabs v-model="activeName" @tab-click="handleClick" :stretch="stretch">
@@ -118,6 +118,12 @@ import setting from './setting'
        })
     },
     methods: {
+      editLocal() {
+        this.$refs.localStorage.editItem();
+      },
+      editSession(){
+        this.$refs.sessionStorage.editItem();
+      },
       handleClick(tab, event) {
         localStorage.setItem('handleClick', tab.label)
       },
@@ -125,7 +131,6 @@ import setting from './setting'
         this.loading = true;
         let self = this;
         chrome.cookies.getAll({"url":url},function (res){
-          console.log(res)
           self.tableData = res.map((i) => {
             return {
               ...i,
@@ -158,7 +163,8 @@ import setting from './setting'
         (res)=>{
           this.$message({
             message: `${res.name} was deleted`,
-            type: 'success'
+            type: 'success',
+            showClose: true
           });
           this.tableData = this.tableData.filter((item)=>{return item.name != res.name})
         });
@@ -168,12 +174,10 @@ import setting from './setting'
         let temp = this.form
         delete temp.hostOnly
         delete temp.session
-        console.log(temp)
         chrome.cookies.set({
             "url": self.currentPage,
             ...temp
         }, function (cookie) {
-            console.log(cookie)
             self.dialogFormVisible = false
             chrome.tabs.query({"windowId":chrome.windows.WINDOW_ID_CURRENT,"active":true}, function(tab){
                 self.currentPage = tab[0].url;
@@ -181,7 +185,8 @@ import setting from './setting'
             })
             self.$message({
               message: `success`,
-              type: 'success'
+              type: 'success',
+              showClose: true
             });
             
         });
@@ -204,7 +209,8 @@ import setting from './setting'
           document.execCommand('copy');
           this.$message({
             message: `success`,
-            type: 'success'
+            type: 'success',
+            showClose: true
           });
         }else{
           console.log('当前浏览器不支持复制')

@@ -11,8 +11,9 @@ function deleteCookie(url,name){
                 name: name
             })
             self.$message({
-              message: '删除成功',
-              type: 'success'
+              message: 'success',
+              type: 'success',
+              showClose: true
             });
         }
     });
