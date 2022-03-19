@@ -8,9 +8,9 @@ Chrome扩展技术基于`css`，`html`，`javascript`，并附加一些chrome提
 ## 资源
 
 - [谷歌安装](https://chrome.google.com/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm?hl=zh-CN) 
-- [国内安装](https://www.chromefor.com/ohmycookie_v1-1-2/)
+- [国内安装](https://www.gugeapps.net/webstore/detail/ohmycookie/edkfjjgklckogiepbhmmdlaohebiaigm)
 - [官方文档](https://developer.chrome.com/extensions/overview)
-- [国内镜像文档](https://crxdoc-zh.appspot.com/extensions/devguide)
+- [国内镜像文档](https://open.chrome.360.cn/extension_dev/overview.html)
 
 
 ## 开始  
