@@ -1,34 +1,33 @@
-
 module.exports = {
-  name: 'OhMyCookie',
-  version: '1.1.2',
-  description: 'Cookies Manager',
-  author: 'liang Qi',
+  name: "OhMyCookie",
+  version: "1.1.6",
+  description: "Cookies Manager",
+  author: "liang Qi",
   manifest_version: 2,
-  icons: { '16': 'icons/logo16.png', '128': 'icons/logo128.png' },
+  icons: { "16": "icons/logo16.png", "128": "icons/logo128.png" },
   permissions: [
-    'activeTab',
-    'tabs',
-    'cookies', 
-    'background',
-    'contextMenus',
-    'unlimitedStorage',
-    'storage',
-    'notifications',
-    'identity',
-    'identity.email'
+    "activeTab",
+    "tabs",
+    "cookies",
+    "background",
+    "contextMenus",
+    "unlimitedStorage",
+    "storage",
+    "notifications",
+    "identity",
+    "identity.email",
   ],
   browser_action: {
-    default_title: 'OhMyCookie',
-    default_popup: 'pages/popup.html'
+    default_title: "OhMyCookie",
+    default_popup: "pages/popup.html",
   },
   background: {
     persistent: false,
-    page: 'pages/background.html'
+    page: "pages/background.html",
   },
-  devtools_page: 'pages/devtools.html',
-  options_page: 'pages/options.html',
+  devtools_page: "pages/devtools.html",
+  options_page: "pages/options.html",
   content_scripts: [],
   content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  web_accessible_resources: [ 'panel.html', 'js/content.js' ]
-}
+  web_accessible_resources: ["panel.html", "js/content.js"],
+};
