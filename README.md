@@ -68,3 +68,9 @@ npm run dev
   1.新增创建`cookie`、`localStorage`和`sessionStorage`功能
 
   2.新增可以修改国际化文案功能
+
+- **v1.1.6**
+
+  1.新增在表格上快速复制`cookie`、`localStorage`和`sessionStorage`值功能
+
+  2.语法、提示等 ui 优化，修复已知问题
