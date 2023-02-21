@@ -10,8 +10,4 @@ export default {
   methods: {},
 };
 </script>
-<style>
-div {
-  /* color: blue; */
-}
-</style>
+<style></style>

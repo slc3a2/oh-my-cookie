@@ -214,6 +214,9 @@ export default {
       let temp = this.form;
       delete temp.hostOnly;
       delete temp.session;
+      if (!temp.hasOwnProperty("path")) {
+        temp.path = "/";
+      }
       chrome.cookies.set(
         {
           url: self.currentPage,

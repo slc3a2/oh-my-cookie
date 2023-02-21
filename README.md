@@ -21,7 +21,7 @@ Chrome 扩展技术基于`css`，`html`，`javascript`，并附加一些 chrome 
 cd ./template
 # 安装依赖
 yarn
-# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成build文件夹，把根目录的./template/manifest.json复制到build中，就可以在浏览器中安装了
+# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成 build 文件夹，把根目录的 ./template/manifest.json 复制到 build 中，就可以在浏览器中安装了
 npm run dev
 ```
 
