@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div>
+    <div class="logo-wrap">
       <el-tooltip
         class="item"
         effect="dark"
@@ -11,6 +11,7 @@
           <img class="logo" src="./img/logo.png" alt="" />
         </a>
       </el-tooltip>
+      <span>v{{ version }}</span>
     </div>
     <div class="name"></div>
     <div class="others">
@@ -63,6 +64,7 @@ export default {
   data: () => {
     return {
       lang: "En",
+      version: chrome.runtime.getManifest().version,
     };
   },
   props: {
@@ -163,7 +165,19 @@ export default {
   justify-content: space-between;
   box-sizing: border-box;
   padding: 5px 10px;
-  .others,
+  box-sizing: border-box;
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    .item {
+      margin-right: 10px;
+    }
+  }
+  .others {
+    user-select: none;
+    display: flex;
+    align-items: center;
+  }
   .logo {
     user-select: none;
   }
@@ -180,7 +194,7 @@ export default {
     .logo {
       width: 25px;
       height: 25px;
-      margin-top: 5px;
+      // margin-top: 5px;
     }
   }
   .name {
@@ -189,6 +203,7 @@ export default {
   }
   .lang {
     cursor: pointer;
+    font-size: 15px;
   }
   i {
     margin-right: 5px;
