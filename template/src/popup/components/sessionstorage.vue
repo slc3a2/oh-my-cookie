@@ -61,8 +61,8 @@
               size="mini"
               @click.stop="copyItem(scope.$index, scope.row)"
             >
-              <i class="el-icon-copy-document"></i
-            ></el-button>
+              <i class="el-icon-document-copy"></i>
+            </el-button>
             <el-button
               size="mini"
               type="danger"
@@ -76,7 +76,6 @@
     <el-dialog title="" :visible.sync="dialogFormVisible">
       <el-form label-position="left" class="demo-table-expand">
         <el-form-item label="name">
-          <!-- <span>{{ edit.name }}</span> -->
           <el-input
             type="textarea"
             :rows="2"
@@ -134,17 +133,30 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `JSON.stringify(sessionStorage)` },
-            function(d) {
-              var data = JSON.parse(d);
-              for (var name in data) {
-                let item = {};
-                var data = JSON.parse(d);
-                item.name = name;
-                item.value = data[name];
-                self.data.push(item);
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: () => {
+                let sessionStorageData = {};
+                for (let key in sessionStorage) {
+                  if (sessionStorage.hasOwnProperty(key)) {
+                    sessionStorageData[key] = sessionStorage.getItem(key);
+                  }
+                }
+                return sessionStorageData;
+              },
+            },
+            (results) => {
+              if (results && results[0] && results[0].result) {
+                var data = results[0].result;
+                self.data = []; // 初始化 self.data
+
+                for (var name in data) {
+                  let item = {};
+                  item.name = name;
+                  item.value = data[name];
+                  self.data.push(item);
+                }
               }
             }
           );
@@ -182,17 +194,23 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `sessionStorage.removeItem('${row.name}')` },
-            function(d) {
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: (name) => {
+                sessionStorage.removeItem(name);
+              },
+              args: [row.name],
+            },
+            (results) => {
+              // 在脚本执行完成后的回调
               self.$message({
                 message: `${row.name} was deleted`,
                 type: "success",
                 showClose: true,
               });
               self.data = self.data.filter((item) => {
-                return item.name != row.name;
+                return item.name !== row.name;
               });
             }
           );
@@ -213,19 +231,23 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
+          chrome.scripting.executeScript(
             {
-              code: `sessionStorage.setItem('${self.edit.name}','${self.edit.value}')`,
+              target: { tabId: tabId },
+              func: (name, value) => {
+                sessionStorage.setItem(name, value);
+              },
+              args: [self.edit.name, self.edit.value],
             },
-            function(d) {
+            (results) => {
+              // 执行完成后的回调
               self.$message({
-                message: `success`,
+                message: `Success`,
                 type: "success",
                 showClose: true,
               });
-              self.getSessionStorage();
-              self.dialogFormVisible = false;
+              self.getSessionStorage(); // 更新 sessionStorage 数据
+              self.dialogFormVisible = false; // 关闭对话框
             }
           );
         }
@@ -241,16 +263,21 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `sessionStorage.clear()` },
-            function(d) {
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: () => {
+                sessionStorage.clear();
+              },
+            },
+            (results) => {
+              // 在脚本执行完成后的回调
               self.$message({
-                message: `success`,
+                message: `Success`,
                 type: "success",
                 showClose: true,
               });
-              self.data = [];
+              self.data = []; // 清空本地数据
             }
           );
         }

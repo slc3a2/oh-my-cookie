@@ -94,7 +94,7 @@
               size="mini"
               @click.stop="copyItem(scope.$index, scope.row)"
             >
-              <i class="el-icon-copy-document"></i
+              <i class="el-icon-document-copy"></i
             ></el-button>
             <el-button
               size="mini"
