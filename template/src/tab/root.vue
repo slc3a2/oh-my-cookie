@@ -1,5 +1,4 @@
 <template lang="pug">
-    div tab
 </template>
 <script>
 export default {
@@ -10,8 +9,4 @@ export default {
   methods: {},
 };
 </script>
-<style lang="scss">
-div {
-  color: blue;
-}
-</style>
+<style lang="scss"></style>

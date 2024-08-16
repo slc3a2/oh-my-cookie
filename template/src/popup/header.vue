@@ -12,9 +12,7 @@
         </a>
       </el-tooltip>
     </div>
-    <div class="name">
-      <!-- oh my cookie -->
-    </div>
+    <div class="name"></div>
     <div class="others">
       <el-tooltip
         class="item"

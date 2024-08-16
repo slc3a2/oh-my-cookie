@@ -1,5 +1,4 @@
 <template lang="pug">
-    div options
 </template>
 <script>
 export default {

@@ -53,7 +53,7 @@
               size="mini"
               @click.stop="copyItem(scope.$index, scope.row)"
             >
-              <i class="el-icon-copy-document"></i
+              <i class="el-icon-document-copy"></i
             ></el-button>
             <el-button
               size="mini"
@@ -126,17 +126,28 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `JSON.stringify(localStorage)` },
-            function(d) {
-              var data = JSON.parse(d);
-              for (var name in data) {
-                let item = {};
-                var data = JSON.parse(d);
-                item.name = name;
-                item.value = data[name];
-                self.data.push(item);
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: () => {
+                let localStorageData = {};
+                for (let key in localStorage) {
+                  if (localStorage.hasOwnProperty(key)) {
+                    localStorageData[key] = localStorage.getItem(key);
+                  }
+                }
+                return localStorageData;
+              },
+            },
+            (results) => {
+              if (results && results[0] && results[0].result) {
+                var data = results[0].result;
+                for (var name in data) {
+                  let item = {};
+                  item.name = name;
+                  item.value = data[name];
+                  self.data.push(item);
+                }
               }
             }
           );
@@ -174,17 +185,23 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `localStorage.removeItem('${row.name}')` },
-            function(d) {
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: (name) => {
+                localStorage.removeItem(name);
+              },
+              args: [row.name],
+            },
+            (results) => {
+              // 处理脚本执行完成后的回调
               self.$message({
                 message: `${row.name} was deleted`,
                 type: "success",
                 showClose: true,
               });
               self.data = self.data.filter((item) => {
-                return item.name != row.name;
+                return item.name !== row.name;
               });
             }
           );
@@ -205,19 +222,23 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
+          chrome.scripting.executeScript(
             {
-              code: `localStorage.setItem('${self.edit.name}','${self.edit.value}')`,
+              target: { tabId: tabId },
+              func: (name, value) => {
+                localStorage.setItem(name, value);
+              },
+              args: [self.edit.name, self.edit.value],
             },
-            function(d) {
+            (results) => {
+              // 在脚本执行完成后显示消息和更新状态
               self.$message({
-                message: `success`,
+                message: `Success`,
                 type: "success",
                 showClose: true,
               });
-              self.getLocalStorage();
-              self.dialogFormVisible = false;
+              self.getLocalStorage(); // 更新本地存储或其他相关操作
+              self.dialogFormVisible = false; // 关闭对话框
             }
           );
         }
@@ -233,16 +254,21 @@ export default {
         },
         function(tab) {
           let tabId = tab[0].id;
-          chrome.tabs.executeScript(
-            tabId,
-            { code: `localStorage.clear()` },
-            function(d) {
+          chrome.scripting.executeScript(
+            {
+              target: { tabId: tabId },
+              func: () => {
+                localStorage.clear();
+              },
+            },
+            (results) => {
+              // 在脚本执行完成后显示消息和更新状态
               self.$message({
-                message: `success`,
+                message: `Success`,
                 type: "success",
                 showClose: true,
               });
-              self.data = [];
+              self.data = []; // 清空本地数据
             }
           );
         }

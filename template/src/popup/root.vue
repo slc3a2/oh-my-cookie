@@ -162,15 +162,17 @@ export default {
       this.loading = true;
       let self = this;
       chrome.cookies.getAll({ url: url }, function(res) {
-        self.tableData = res.map((i) => {
+        self.tableData = res.map((cookie) => {
           return {
-            ...i,
-            expirationDate:
-              String(parseInt(i.expirationDate)).length === 10
-                ? i.expirationDate * 1000
-                : i.expirationDate,
+            ...cookie,
+            expirationDate: cookie.expirationDate
+              ? String(parseInt(cookie.expirationDate)).length === 10
+                ? cookie.expirationDate * 1000
+                : cookie.expirationDate
+              : null,
           };
         });
+
         setTimeout(() => {
           self.loading = false;
         }, 100);

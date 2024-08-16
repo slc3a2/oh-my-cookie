@@ -1,13 +1,13 @@
 {
   "name": "oh-my-cookie",
-  "version": "1.0.0",
+  "version": "1.2.7",
   "description": "oh my cookie",
-  "author": "codedance98@gmail.com",
+  "author": "slc3a2@gmail.com",
   "license": "MIT",
   "private": false,
   "dependencies": {
     "axios": "^0.17.0",
-    "element-ui": "^2.0.1",
+    "element-ui": "^2.8.2",
     "lodash": "^4.17.4",
     "vue": "^2.5.2",
     "vue-meta": "^1.2.0",
