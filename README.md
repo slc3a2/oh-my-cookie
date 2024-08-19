@@ -74,3 +74,9 @@ npm run dev
   1.新增在表格上快速复制`cookie`、`localStorage`和`sessionStorage`值功能
 
   2.语法、提示等 ui 优化，修复已知问题
+
+- **v1.2.0**
+
+  1.应 goole extension store 要求，支持 manifest_version 3 的版本，
+
+  2.增强可用性交互
