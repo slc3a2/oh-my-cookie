@@ -1,8 +1,8 @@
 {
   "name": "oh-my-cookie",
-  "version": "1.2.7",
+  "version": "1.2.0",
   "description": "oh my cookie",
-  "author": "slc3a2@gmail.com",
+  "author": "slc3a2",
   "license": "MIT",
   "private": false,
   "dependencies": {
