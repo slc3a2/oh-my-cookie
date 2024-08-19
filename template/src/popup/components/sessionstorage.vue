@@ -29,14 +29,14 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="name"
+        label="Name"
         align="center"
         show-overflow-tooltip
         prop="name"
       >
       </el-table-column>
       <el-table-column
-        label="value"
+        label="Value"
         align="center"
         width="320"
         show-overflow-tooltip
@@ -45,7 +45,7 @@
       </el-table-column>
       <el-table-column
         class="cookie-value"
-        label="action"
+        label="Action"
         align="center"
         width="130"
       >
@@ -57,12 +57,19 @@
                 @click.stop="editItem(scope.$index, scope.row)"
               ></i
             ></el-button>
-            <el-button
-              size="mini"
-              @click.stop="copyItem(scope.$index, scope.row)"
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Copy value"
+              placement="top"
             >
-              <i class="el-icon-document-copy"></i>
-            </el-button>
+              <el-button
+                size="mini"
+                @click.stop="copyItem(scope.$index, scope.row)"
+              >
+                <i class="el-icon-document-copy"></i>
+              </el-button>
+            </el-tooltip>
             <el-button
               size="mini"
               type="danger"
@@ -178,7 +185,7 @@ export default {
       const result = document.execCommand("copy");
       if (result) {
         this.$message({
-          message: `copy value done`,
+          message: `Copied`,
           type: "success",
           showClose: true,
         });
@@ -205,7 +212,7 @@ export default {
             (results) => {
               // 在脚本执行完成后的回调
               self.$message({
-                message: `${row.name} was deleted`,
+                message: `${row.name} deleted`,
                 type: "success",
                 showClose: true,
               });

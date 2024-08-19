@@ -55,14 +55,14 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="domain"
+        label="Domain"
         align="center"
         show-overflow-tooltip
         prop="domain"
       >
       </el-table-column>
       <el-table-column
-        label="name"
+        label="Name"
         show-overflow-tooltip
         align="center"
         prop="name"
@@ -70,7 +70,7 @@
       </el-table-column>
       <el-table-column
         class="cookie-value"
-        label="value"
+        label="Value"
         align="center"
         show-overflow-tooltip
         prop="value"
@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column
         class="cookie-value"
-        label="action"
+        label="Action"
         align="center"
         width="130"
       >
@@ -90,12 +90,20 @@
             >
               <i class="el-icon-edit"></i
             ></el-button>
-            <el-button
-              size="mini"
-              @click.stop="copyItem(scope.$index, scope.row)"
+
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="Copy value"
+              placement="top"
             >
-              <i class="el-icon-document-copy"></i
-            ></el-button>
+              <el-button
+                size="mini"
+                @click.stop="copyItem(scope.$index, scope.row)"
+              >
+                <i class="el-icon-document-copy"></i
+              ></el-button>
+            </el-tooltip>
             <el-button
               size="mini"
               type="danger"
@@ -141,7 +149,7 @@ export default {
       const result = document.execCommand("copy");
       if (result) {
         this.$message({
-          message: `copy value done`,
+          message: `Copied`,
           type: "success",
           showClose: true,
         });

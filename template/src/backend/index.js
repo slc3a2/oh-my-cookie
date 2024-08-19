@@ -11,7 +11,7 @@ function deleteCookie(url, name) {
           name: name,
         });
         self.$message({
-          message: "success",
+          message: "Success",
           type: "success",
           showClose: true,
         });

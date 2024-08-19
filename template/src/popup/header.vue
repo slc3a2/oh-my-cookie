@@ -11,7 +11,7 @@
           <img class="logo" src="./img/logo.png" alt="" />
         </a>
       </el-tooltip>
-      <span>v{{ version }}</span>
+      <span class="version">v{{ version }}</span>
     </div>
     <div class="name"></div>
     <div class="others">
@@ -48,14 +48,14 @@
       >
         <i class="el-icon-setting" @click.stop="showSetting"></i>
       </el-tooltip>
-      <el-tooltip
+      <!-- <el-tooltip
         class="item"
         effect="dark"
         :content="$t('lang.lang')"
         placement="top-start"
       >
         <i class="lang" @click="changeLang">{{ lang }}</i>
-      </el-tooltip>
+      </el-tooltip> -->
     </div>
   </div>
 </template>
@@ -141,7 +141,7 @@ export default {
                   });
                 }
                 self.$message({
-                  message: `success`,
+                  message: `Success`,
                   type: "success",
                   showClose: true,
                 });
@@ -168,9 +168,14 @@ export default {
   box-sizing: border-box;
   .logo-wrap {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     .item {
-      margin-right: 10px;
+      margin-right: 5px;
+    }
+    .version {
+      font-size: 12px;
+      color: #888;
+      font-style: italic;
     }
   }
   .others {

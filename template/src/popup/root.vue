@@ -201,7 +201,7 @@ export default {
         { url: this.currentPage, name: data.name },
         (res) => {
           this.$message({
-            message: `${res.name} was deleted`,
+            message: `${res.name} deleted`,
             type: "success",
             showClose: true,
           });
@@ -234,7 +234,7 @@ export default {
             }
           );
           self.$message({
-            message: `success`,
+            message: `Success`,
             type: "success",
             showClose: true,
           });
@@ -313,7 +313,7 @@ body::-webkit-scrollbar {
     .el-tabs__nav-wrap {
       width: 100%;
       position: fixed;
-      top: 36px;
+      top: 45px;
       left: 0;
       background-color: #fff;
       z-index: 2;
