@@ -85,10 +85,10 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">{{
-              $t("lang.cancel")
+              $t('lang.cancel')
             }}</el-button>
             <el-button type="primary" @click="submit">{{
-              $t("lang.save")
+              $t('lang.save')
             }}</el-button>
           </div>
         </el-dialog>
@@ -100,68 +100,68 @@
   </div>
 </template>
 <script>
-import "./style/base.scss";
-import cookie from "./components/cookie";
-import localstorage from "./components/localstorage";
-import sessionstorage from "./components/sessionstorage";
-import detail from "./table";
-import appHeader from "./header";
-import setting from "./setting";
+import './style/base.scss'
+import cookie from './components/cookie'
+import localstorage from './components/localstorage'
+import sessionstorage from './components/sessionstorage'
+import detail from './table'
+import appHeader from './header'
+import setting from './setting'
 export default {
   data: () => {
     return {
-      activeName: localStorage.getItem("handleClick") || "cookie",
+      activeName: localStorage.getItem('handleClick') || 'cookie',
       stretch: true,
       tableData: [],
-      scope: "",
-      url: "",
-      search: "",
-      currentPage: "",
+      scope: '',
+      url: '',
+      search: '',
+      currentPage: '',
       dialogFormVisible: false,
       showSetting: true,
       form: {
-        domain: "",
-        name: "",
-        value: "",
-        expirationDate: "",
-        path: "",
-        sameSite: "",
+        domain: '',
+        name: '',
+        value: '',
+        expirationDate: '',
+        path: '',
+        sameSite: '',
         hostOnly: false,
         httpOnly: false,
         secure: true,
-        session: false,
-      },
-    };
+        session: false
+      }
+    }
   },
   computed: {
     JSONCookie() {
-      return JSON.stringify(this.tableData);
-    },
+      return JSON.stringify(this.tableData)
+    }
   },
   created() {
-    let self = this;
+    let self = this
     chrome.tabs.query(
       { windowId: chrome.windows.WINDOW_ID_CURRENT, active: true },
-      function(tab) {
-        self.currentPage = tab[0].url;
-        self.getCookies(tab[0].url);
+      function (tab) {
+        self.currentPage = tab[0].url
+        self.getCookies(tab[0].url)
       }
-    );
+    )
   },
   methods: {
     editLocal() {
-      this.$refs.localStorage.editItem();
+      this.$refs.localStorage.editItem()
     },
     editSession() {
-      this.$refs.sessionStorage.editItem();
+      this.$refs.sessionStorage.editItem()
     },
     handleClick(tab, event) {
-      localStorage.setItem("handleClick", tab.label);
+      localStorage.setItem('handleClick', tab.label)
     },
     getCookies(url) {
-      this.loading = true;
-      let self = this;
-      chrome.cookies.getAll({ url: url }, function(res) {
+      this.loading = true
+      let self = this
+      chrome.cookies.getAll({ url: url }, function (res) {
         self.tableData = res.map((cookie) => {
           return {
             ...cookie,
@@ -169,32 +169,32 @@ export default {
               ? String(parseInt(cookie.expirationDate)).length === 10
                 ? cookie.expirationDate * 1000
                 : cookie.expirationDate
-              : null,
-          };
-        });
+              : null
+          }
+        })
 
         setTimeout(() => {
-          self.loading = false;
-        }, 100);
-      });
+          self.loading = false
+        }, 100)
+      })
     },
     deleteCookie(idx) {
       this.tableData = this.tableData.filter((item, index) => {
-        return idx != index;
-      });
+        return idx != index
+      })
     },
     removeAll(activeName) {
-      if (activeName === "cookie") {
-        this.tableData = [];
-      } else if (activeName === "localStorage") {
-        this.$refs.localStorage.deleteAll();
-      } else if (activeName === "sessionStorage") {
-        this.$refs.sessionStorage.deleteAll();
+      if (activeName === 'cookie') {
+        this.tableData = []
+      } else if (activeName === 'localStorage') {
+        this.$refs.localStorage.deleteAll()
+      } else if (activeName === 'sessionStorage') {
+        this.$refs.sessionStorage.deleteAll()
       }
     },
     handleEdit(index, data) {
-      this.form = { ...data };
-      this.dialogFormVisible = true;
+      this.form = { ...data }
+      this.dialogFormVisible = true
     },
     handleDele(index, data) {
       chrome.cookies.remove(
@@ -202,85 +202,85 @@ export default {
         (res) => {
           this.$message({
             message: `${res.name} deleted`,
-            type: "success",
-            showClose: true,
-          });
+            type: 'success',
+            showClose: true
+          })
           this.tableData = this.tableData.filter((item) => {
-            return item.name != res.name;
-          });
+            return item.name != res.name
+          })
         }
-      );
+      )
     },
     submit() {
-      let self = this;
-      let temp = this.form;
-      delete temp.hostOnly;
-      delete temp.session;
-      if (!temp.hasOwnProperty("path")) {
-        temp.path = "/";
+      let self = this
+      let temp = this.form
+      delete temp.hostOnly
+      delete temp.session
+      if (!temp.hasOwnProperty('path')) {
+        temp.path = '/'
       }
       chrome.cookies.set(
         {
           url: self.currentPage,
-          ...temp,
+          ...temp
         },
-        function(cookie) {
-          self.dialogFormVisible = false;
+        function (cookie) {
+          self.dialogFormVisible = false
           chrome.tabs.query(
             { windowId: chrome.windows.WINDOW_ID_CURRENT, active: true },
-            function(tab) {
-              self.currentPage = tab[0].url;
-              self.getCookies(tab[0].url);
+            function (tab) {
+              self.currentPage = tab[0].url
+              self.getCookies(tab[0].url)
             }
-          );
+          )
           self.$message({
             message: `Success`,
-            type: "success",
-            showClose: true,
-          });
+            type: 'success',
+            showClose: true
+          })
         }
-      );
+      )
     },
     // 暂时不用
     filterValue(v) {
       if (!v.length) {
-        let self = this;
+        let self = this
         chrome.tabs.query(
           {
-            status: "complete",
+            status: 'complete',
             windowId: chrome.windows.WINDOW_ID_CURRENT,
-            active: true,
+            active: true
           },
-          function(tab) {
-            self.getCookies(tab[0].url);
+          function (tab) {
+            self.getCookies(tab[0].url)
           }
-        );
+        )
       } else {
         this.tableData = this.tableData.filter((i) => {
-          return i.value.indexOf(v) !== -1;
-        });
+          return i.value.indexOf(v) !== -1
+        })
       }
     },
     exportJson() {
-      const input = this.$refs.exportJson;
-      input.select();
-      if (document.execCommand("copy")) {
-        document.execCommand("copy");
+      const input = this.$refs.exportJson
+      input.select()
+      if (document.execCommand('copy')) {
+        document.execCommand('copy')
         this.$message({
           message: `success`,
-          type: "success",
-          showClose: true,
-        });
+          type: 'success',
+          showClose: true
+        })
       } else {
-        console.log("当前浏览器不支持复制");
+        console.log('当前浏览器不支持复制')
       }
     },
     showSettingHandle() {
-      this.showSetting = false;
+      this.showSetting = false
     },
     hideSettingHandle() {
-      this.showSetting = true;
-    },
+      this.showSetting = true
+    }
   },
   components: {
     detail,
@@ -288,9 +288,9 @@ export default {
     setting,
     cookie,
     localstorage,
-    sessionstorage,
-  },
-};
+    sessionstorage
+  }
+}
 </script>
 <style lang="scss">
 body::-webkit-scrollbar {

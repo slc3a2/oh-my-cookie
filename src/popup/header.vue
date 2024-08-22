@@ -63,99 +63,99 @@
 export default {
   data: () => {
     return {
-      lang: "En",
-      version: chrome.runtime.getManifest().version,
-    };
+      lang: 'En',
+      version: chrome.runtime.getManifest().version
+    }
   },
   props: {
     data: {
-      default: function() {
-        return "";
-      },
+      default: function () {
+        return ''
+      }
     },
     createCookie: {
-      default: () => {},
+      default: () => {}
     },
     createLocal: {
-      default: () => {},
+      default: () => {}
     },
     createCookie: {
-      default: () => {},
+      default: () => {}
     },
     createSession: {
-      default: () => {},
+      default: () => {}
     },
     activeName: {
       default: () => {
-        return "cookie";
-      },
-    },
+        return 'cookie'
+      }
+    }
   },
   methods: {
     showSetting() {
-      this.$emit("showSettingHandle");
+      this.$emit('showSettingHandle')
     },
     changeLang() {
-      if (this.$i18n.locale === "zh-CN") {
-        this.$i18n.locale = "en-US";
-        localStorage.setItem("lang", "en-US");
+      if (this.$i18n.locale === 'zh-CN') {
+        this.$i18n.locale = 'en-US'
+        localStorage.setItem('lang', 'en-US')
       } else {
-        this.$i18n.locale = "zh-CN";
-        localStorage.setItem("lang", "zh-CN");
+        this.$i18n.locale = 'zh-CN'
+        localStorage.setItem('lang', 'zh-CN')
       }
-      if (this.lang === "En") {
-        this.lang = "Zh";
+      if (this.lang === 'En') {
+        this.lang = 'Zh'
       } else {
-        this.lang = "En";
+        this.lang = 'En'
       }
     },
     create() {
-      if (this.activeName === "cookie") {
-        this.$emit("createCookie");
-      } else if (this.activeName === "localStorage") {
-        this.$emit("createLocal");
-      } else if (this.activeName === "sessionStorage") {
-        this.$emit("createSession");
+      if (this.activeName === 'cookie') {
+        this.$emit('createCookie')
+      } else if (this.activeName === 'localStorage') {
+        this.$emit('createLocal')
+      } else if (this.activeName === 'sessionStorage') {
+        this.$emit('createSession')
       }
     },
     deleteAll() {
-      if (this.activeName === "cookie") {
-        let self = this;
+      if (this.activeName === 'cookie') {
+        let self = this
         chrome.tabs.query(
           {
-            status: "complete",
+            status: 'complete',
             windowId: chrome.windows.WINDOW_ID_CURRENT,
-            active: true,
+            active: true
           },
-          function(tab) {
-            let url = tab[0].url;
+          function (tab) {
+            let url = tab[0].url
             chrome.cookies.getAll(
               {
-                url: url,
+                url: url
               },
-              function(cookies) {
+              function (cookies) {
                 for (var i = 0; i < cookies.length; i++) {
                   chrome.cookies.remove({
-                    url: url + "" + cookies[i].path,
-                    name: cookies[i].name,
-                  });
+                    url: url + '' + cookies[i].path,
+                    name: cookies[i].name
+                  })
                 }
                 self.$message({
                   message: `Success`,
-                  type: "success",
-                  showClose: true,
-                });
-                self.$emit("removeAll", "cookie");
+                  type: 'success',
+                  showClose: true
+                })
+                self.$emit('removeAll', 'cookie')
               }
-            );
+            )
           }
-        );
+        )
       } else {
-        this.$emit("removeAll", this.activeName);
+        this.$emit('removeAll', this.activeName)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss">
 .header {
