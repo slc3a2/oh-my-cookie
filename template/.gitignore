@@ -12,3 +12,7 @@ yarn.lock
 
 # Backpack build
 build
+
+# Editor directories and files
+.DS_Store
+
