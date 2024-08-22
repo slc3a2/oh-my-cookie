@@ -2,7 +2,7 @@ function deleteCookie(url, name) {
   let self = this;
   chrome.cookies.getAll(
     {
-      url,
+      url,   
     },
     function(cookies) {
       for (let i = 0; i < cookies.length; i++) {

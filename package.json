@@ -18,7 +18,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "dev": "webpack --config ./core/webpack.dev.js --hide-modules",
-    "build": "webpack --config ./core/webpack.prod.js -p --progress  --hide-modules --colors"
+    "build": "webpack --config ./core/webpack.prod.js -p --progress  --hide-modules --colors",
+    "prettier": "npx prettier . --write"
   },
   "devDependencies": {
     "archiver": "^2.1.0",
@@ -53,6 +54,7 @@
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "prettier": "3.3.3",
     "pug": "^2.0.0-rc.4",
     "pug-loader": "^2.3.0",
     "sass-loader": "^6.0.6",
