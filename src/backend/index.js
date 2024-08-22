@@ -1,21 +1,21 @@
 function deleteCookie(url, name) {
-  let self = this;
+  let self = this
   chrome.cookies.getAll(
     {
-      url,   
+      url
     },
-    function(cookies) {
+    function (cookies) {
       for (let i = 0; i < cookies.length; i++) {
         chrome.cookies.remove({
           url: url + cookies[i].path,
-          name: name,
-        });
+          name: name
+        })
         self.$message({
-          message: "Success",
-          type: "success",
-          showClose: true,
-        });
+          message: 'Success',
+          type: 'success',
+          showClose: true
+        })
       }
     }
-  );
+  )
 }

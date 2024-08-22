@@ -97,10 +97,10 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{
-          $t("lang.cancel")
+          $t('lang.cancel')
         }}</el-button>
         <el-button type="primary" @click.stop="submit">{{
-          $t("lang.save")
+          $t('lang.save')
         }}</el-button>
       </div>
     </el-dialog>
@@ -112,178 +112,178 @@ export default {
     return {
       data: [],
       edit: {
-        name: "",
-        value: "",
+        name: '',
+        value: ''
       },
-      dialogFormVisible: false,
-    };
+      dialogFormVisible: false
+    }
   },
   props: {},
   created() {
-    this.getLocalStorage();
+    this.getLocalStorage()
   },
   methods: {
     getLocalStorage() {
-      let self = this;
-      self.data = [];
+      let self = this
+      self.data = []
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true,
+          active: true
         },
-        function(tab) {
-          let tabId = tab[0].id;
+        function (tab) {
+          let tabId = tab[0].id
           chrome.scripting.executeScript(
             {
               target: { tabId: tabId },
               func: () => {
-                let localStorageData = {};
+                let localStorageData = {}
                 for (let key in localStorage) {
                   if (localStorage.hasOwnProperty(key)) {
-                    localStorageData[key] = localStorage.getItem(key);
+                    localStorageData[key] = localStorage.getItem(key)
                   }
                 }
-                return localStorageData;
-              },
+                return localStorageData
+              }
             },
             (results) => {
               if (results && results[0] && results[0].result) {
-                var data = results[0].result;
+                var data = results[0].result
                 for (var name in data) {
-                  let item = {};
-                  item.name = name;
-                  item.value = data[name];
-                  self.data.push(item);
+                  let item = {}
+                  item.name = name
+                  item.value = data[name]
+                  self.data.push(item)
                 }
               }
             }
-          );
+          )
         }
-      );
+      )
     },
     clickTable(row, index, e) {
-      this.$refs.refTable.toggleRowExpansion(row);
+      this.$refs.refTable.toggleRowExpansion(row)
     },
     copyItem(index, row) {
-      const inputEl = document.createElement("input");
-      inputEl.value = row.value;
-      inputEl.style.opacity = "0";
-      inputEl.style.position = "fixed";
-      inputEl.style.top = "0px";
-      inputEl.style.left = "0px";
-      document.body.appendChild(inputEl);
-      inputEl.select();
-      const result = document.execCommand("copy");
+      const inputEl = document.createElement('input')
+      inputEl.value = row.value
+      inputEl.style.opacity = '0'
+      inputEl.style.position = 'fixed'
+      inputEl.style.top = '0px'
+      inputEl.style.left = '0px'
+      document.body.appendChild(inputEl)
+      inputEl.select()
+      const result = document.execCommand('copy')
       if (result) {
         this.$message({
           message: `Copied`,
-          type: "success",
-          showClose: true,
-        });
+          type: 'success',
+          showClose: true
+        })
       }
     },
     deleteItem(index, row) {
-      let self = this;
+      let self = this
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true,
+          active: true
         },
-        function(tab) {
-          let tabId = tab[0].id;
+        function (tab) {
+          let tabId = tab[0].id
           chrome.scripting.executeScript(
             {
               target: { tabId: tabId },
               func: (name) => {
-                localStorage.removeItem(name);
+                localStorage.removeItem(name)
               },
-              args: [row.name],
+              args: [row.name]
             },
             (results) => {
               // 处理脚本执行完成后的回调
               self.$message({
                 message: `${row.name} deleted`,
-                type: "success",
-                showClose: true,
-              });
+                type: 'success',
+                showClose: true
+              })
               self.data = self.data.filter((item) => {
-                return item.name !== row.name;
-              });
+                return item.name !== row.name
+              })
             }
-          );
+          )
         }
-      );
+      )
     },
     editItem(index, row) {
-      this.edit = { ...row };
-      this.dialogFormVisible = true;
+      this.edit = { ...row }
+      this.dialogFormVisible = true
     },
     submit() {
-      let self = this;
+      let self = this
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true,
+          active: true
         },
-        function(tab) {
-          let tabId = tab[0].id;
+        function (tab) {
+          let tabId = tab[0].id
           chrome.scripting.executeScript(
             {
               target: { tabId: tabId },
               func: (name, value) => {
-                localStorage.setItem(name, value);
+                localStorage.setItem(name, value)
               },
-              args: [self.edit.name, self.edit.value],
+              args: [self.edit.name, self.edit.value]
             },
             (results) => {
               // 在脚本执行完成后显示消息和更新状态
               self.$message({
                 message: `Success`,
-                type: "success",
-                showClose: true,
-              });
-              self.getLocalStorage(); // 更新本地存储或其他相关操作
-              self.dialogFormVisible = false; // 关闭对话框
+                type: 'success',
+                showClose: true
+              })
+              self.getLocalStorage() // 更新本地存储或其他相关操作
+              self.dialogFormVisible = false // 关闭对话框
             }
-          );
+          )
         }
-      );
+      )
     },
     deleteAll() {
-      let self = this;
+      let self = this
       chrome.tabs.query(
         {
-          status: "complete",
+          status: 'complete',
           windowId: chrome.windows.WINDOW_ID_CURRENT,
-          active: true,
+          active: true
         },
-        function(tab) {
-          let tabId = tab[0].id;
+        function (tab) {
+          let tabId = tab[0].id
           chrome.scripting.executeScript(
             {
               target: { tabId: tabId },
               func: () => {
-                localStorage.clear();
-              },
+                localStorage.clear()
+              }
             },
             (results) => {
               // 在脚本执行完成后显示消息和更新状态
               self.$message({
                 message: `Success`,
-                type: "success",
-                showClose: true,
-              });
-              self.data = []; // 清空本地数据
+                type: 'success',
+                showClose: true
+              })
+              self.data = [] // 清空本地数据
             }
-          );
+          )
         }
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>
 <style lang="scss">
 .localstorage-page {

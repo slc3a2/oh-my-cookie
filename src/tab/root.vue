@@ -6,7 +6,7 @@ export default {
   computed: {},
   created() {},
   mounted() {},
-  methods: {},
-};
+  methods: {}
+}
 </script>
 <style lang="scss"></style>

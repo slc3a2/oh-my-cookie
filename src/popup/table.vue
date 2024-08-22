@@ -8,15 +8,15 @@
 <script>
 export default {
   data: () => {
-    return {};
+    return {}
   },
   props: {
     data: {
-      default: function() {
-        return [{}];
-      },
-    },
-  },
-};
+      default: function () {
+        return [{}]
+      }
+    }
+  }
+}
 </script>
 <style></style>

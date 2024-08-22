@@ -33,10 +33,10 @@
             </el-form-item>
             <el-form-item label="expiration">
               <span>{{
-                props.row.hasOwnProperty("expirationDate") &&
+                props.row.hasOwnProperty('expirationDate') &&
                 props.row.expirationDate
                   ? numberToTime(props.row.expirationDate)
-                  : "-"
+                  : '-'
               }}</span>
             </el-form-item>
             <el-form-item label="hostOnly">
@@ -119,74 +119,74 @@
 <script>
 export default {
   data: () => {
-    return {};
+    return {}
   },
   props: {
     data: {
-      default: function() {
-        return [{}];
-      },
+      default: function () {
+        return [{}]
+      }
     },
     handleEdit: {
-      default: function() {
-        return () => {};
-      },
-    },
+      default: function () {
+        return () => {}
+      }
+    }
   },
   methods: {
     editItem(index, row) {
-      this.$emit("handleEdit", index, row);
+      this.$emit('handleEdit', index, row)
     },
     copyItem(index, row) {
-      const inputEl = document.createElement("input");
-      inputEl.value = row.value;
-      inputEl.style.opacity = "0";
-      inputEl.style.position = "fixed";
-      inputEl.style.top = "0px";
-      inputEl.style.left = "0px";
-      document.body.appendChild(inputEl);
-      inputEl.select();
-      const result = document.execCommand("copy");
+      const inputEl = document.createElement('input')
+      inputEl.value = row.value
+      inputEl.style.opacity = '0'
+      inputEl.style.position = 'fixed'
+      inputEl.style.top = '0px'
+      inputEl.style.left = '0px'
+      document.body.appendChild(inputEl)
+      inputEl.select()
+      const result = document.execCommand('copy')
       if (result) {
         this.$message({
           message: `Copied`,
-          type: "success",
-          showClose: true,
-        });
+          type: 'success',
+          showClose: true
+        })
       }
     },
     deleteItem(index, row) {
-      this.$emit("handleDele", index, row);
+      this.$emit('handleDele', index, row)
     },
     clickTable(row, index, e) {
-      this.$refs.refTable.toggleRowExpansion(row);
+      this.$refs.refTable.toggleRowExpansion(row)
     },
     numberToTime(timenumber) {
       let t =
         String(parseInt(timenumber)).length === 10
           ? timenumber * 1000
-          : timenumber;
-      const date = new Date(t);
-      const Y = date.getFullYear() + "-";
+          : timenumber
+      const date = new Date(t)
+      const Y = date.getFullYear() + '-'
       const M =
         (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      const D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1) + '-'
+      const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       let h =
         date.getHours() < 10
-          ? "0" + date.getHours() + ":"
-          : date.getHours() + ":";
+          ? '0' + date.getHours() + ':'
+          : date.getHours() + ':'
       let m =
         date.getMinutes() < 10
-          ? "0" + date.getMinutes() + ":"
-          : date.getMinutes() + ":";
+          ? '0' + date.getMinutes() + ':'
+          : date.getMinutes() + ':'
       let s =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      return Y + M + D + " " + h + m + s;
-    },
-  },
-};
+        date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+      return Y + M + D + ' ' + h + m + s
+    }
+  }
+}
 </script>
 <style lang="scss">
 .cookie-page {
