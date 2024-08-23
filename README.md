@@ -2,7 +2,7 @@
 
 > 一个用于导出，增删改查`cookie`、`sessionstorage`、`localstorage`的 Chrome 扩展
 
-<div style='text-align:center;'><img width='600px' height='350px;' src='https://i.loli.net/2020/05/19/95tvnW1rHmRgNwu.png' alt='example image'/></div>
+<div style='text-align:center;'><img src='https://s2.loli.net/2024/08/23/Gfaexq9KLvXAU74.jpg' alt='example image'/></div>
 
 ## 介绍
 
@@ -18,10 +18,8 @@ Chrome 扩展技术基于`css`，`html`，`javascript`，并附加一些 chrome 
 ## 开始
 
 ```shell
-cd ./template
-# 安装依赖
 yarn
-# dev后会监测代码变化，有变化会重新打包，然后会在 template 目录中生成 build 文件夹，把根目录的 ./template/manifest.json 复制到 build 中，就可以在浏览器中安装了
+# dev后会监测代码变化，有变化会重新打包，然后会在根目录中生成 build 文件夹，把根目录的 ./template/manifest.json 复制到 build 中，就可以在浏览器中安装了
 npm run dev
 ```
 
@@ -77,6 +75,6 @@ npm run dev
 
 - **v1.2.0**
 
-  1.应 goole extension store 要求，支持 manifest_version 3 的版本，
+  1.应 goole extension store 要求，支持 `manifest_version 3` 的版本，
 
   2.增强可用性交互
